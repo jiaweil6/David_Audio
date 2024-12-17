@@ -17,13 +17,15 @@ st.set_page_config(
     }
 )
 
-# Hide the Streamlit header and footer
+# Custom CSS to hide the fork and GitHub icons
 st.markdown(
     """
     <style>
     /* Hide the Streamlit header and footer */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+    /* Hide the fork and GitHub icons */
+    .viewerBadge_container__1QSob {visibility: hidden;}
     </style>
     """,
     unsafe_allow_html=True
