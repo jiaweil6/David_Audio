@@ -5,7 +5,17 @@ from blog3 import blog3_page
 from about import about_page
 
 # Set page configuration
-st.set_page_config(page_title="David Audio", page_icon="🎧", layout="centered")
+st.set_page_config(
+    page_title="David Audio", 
+    page_icon="🎧", 
+    layout="centered",
+    initial_sidebar_state="auto",
+    menu_items={
+        'Get Help': None,
+        'Report a bug': None,
+        'About': None
+    }
+)
 
 # Sidebar for navigation
 page = st.sidebar.radio("Navigation", ("Main", "Blog 1", "Blog 2", "Blog 3", "About"))
