@@ -28,6 +28,30 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Custom CSS to style the sidebar
+st.markdown(
+    """
+    <style>
+    /* Style the sidebar */
+    .css-1d391kg {
+        background-color: #f0f2f6; /* Light background color */
+        padding: 20px; /* Add padding */
+    }
+    .css-1d391kg h2 {
+        color: #333333; /* Darker text color for headings */
+        font-size: 24px; /* Larger font size for headings */
+    }
+    .css-1d391kg .stRadio {
+        color: #333333; /* Darker text color for radio buttons */
+    }
+    .css-1d391kg .stRadio div {
+        font-size: 18px; /* Larger font size for radio button labels */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Sidebar for navigation
 page = st.sidebar.radio("Navigation", ("Main", "Blog 1", "Blog 2", "Blog 3", "About"))
 
