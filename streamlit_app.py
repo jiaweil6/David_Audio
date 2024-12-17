@@ -17,13 +17,12 @@ st.set_page_config(
     }
 )
 
-# Hide the Streamlit header and footer
+# Custom CSS to hide the entire header
 st.markdown(
     """
     <style>
-    /* Hide the Streamlit header and footer */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
+    /* Hide the entire Streamlit header */
+    header {visibility: hidden;}
     </style>
     """,
     unsafe_allow_html=True
