@@ -9,7 +9,6 @@ if 'page' not in st.session_state:
 
 def go_to(page_name: str):
     st.session_state.page = page_name
-    st.experimental_rerun()
 
 # Main layout based on current state
 if st.session_state.page == 'main':
