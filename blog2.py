@@ -1,10 +1,7 @@
 import streamlit as st
 
-def blog2(go_to):
+def blog2_page():
     st.title("Blog Post #2: Binaural Beats")
     st.write("""
-    Binaural beats are an auditory illusion perceived when two slightly different frequencies are presented
-    to each ear. We'll dive into the science, the claims, and whether they truly impact concentration and relaxation.
+    Exploring the world of binaural beats and their impact on relaxation and focus.
     """)
-    if st.button("Back to Main"):
-        go_to('main')
