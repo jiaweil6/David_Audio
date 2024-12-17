@@ -13,11 +13,12 @@ def go_to(page_name: str):
 # Page navigation logic
 current_page = st.session_state.page
 
-# Hide Streamlit's default menu and footer
+# Hide Streamlit's default menu, footer, and GitHub icon
 hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
+            .stApp > header {visibility: hidden;}
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
