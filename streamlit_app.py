@@ -13,6 +13,15 @@ def go_to(page_name: str):
 # Page navigation logic
 current_page = st.session_state.page
 
+# Hide Streamlit's default menu and footer
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 if current_page == 'main':
     # Main page title
     st.title("David Audio")
