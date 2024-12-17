@@ -25,7 +25,7 @@ st.markdown(
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     /* Hide the fork and GitHub icons */
-    .viewerBadge_container__1QSob {visibility: hidden;}
+    .viewerBadge_link__1S137 {display: none;}
     </style>
     """,
     unsafe_allow_html=True
