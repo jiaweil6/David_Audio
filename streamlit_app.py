@@ -60,10 +60,10 @@ if current_page == 'main':
 
 # Page routing
 elif current_page == 'blog1':
-    blog1_page(go_to)
+    blog1(go_to)
 elif current_page == 'blog2':
-    blog2_page(go_to)
+    blog2(go_to)
 elif current_page == 'blog3':
-    blog3_page(go_to)
+    blog3(go_to)
 elif current_page == 'about':
-    about_page(go_to)
+    about(go_to)
