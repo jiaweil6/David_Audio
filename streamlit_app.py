@@ -1,8 +1,8 @@
 import streamlit as st
-from blog1 import blog1
-from blog2 import blog2
-from blog3 import blog3
-from about import about
+from blog1 import blog1_page
+from blog2 import blog2_page
+from blog3 import blog3_page
+from about import about_page
 
 # Set page configuration
 st.set_page_config(page_title="David Audio", page_icon="🎧", layout="centered")
@@ -60,10 +60,10 @@ if current_page == 'main':
 
 # Page routing
 elif current_page == 'blog1':
-    blog1(go_to)
+    blog1_page(go_to)
 elif current_page == 'blog2':
-    blog2(go_to)
+    blog2_page(go_to)
 elif current_page == 'blog3':
-    blog3(go_to)
+    blog3_page(go_to)
 elif current_page == 'about':
-    about(go_to)
+    about_page(go_to)
