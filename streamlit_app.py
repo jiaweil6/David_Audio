@@ -17,6 +17,18 @@ st.set_page_config(
     }
 )
 
+# Hide the Streamlit header and footer
+st.markdown(
+    """
+    <style>
+    /* Hide the Streamlit header and footer */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Sidebar for navigation
 page = st.sidebar.radio("Navigation", ("Main", "Blog 1", "Blog 2", "Blog 3", "About"))
 
