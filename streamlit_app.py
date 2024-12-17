@@ -29,7 +29,7 @@ st.markdown(
 )
 
 # Sidebar for navigation
-page = st.sidebar.selectbox("Navigation", ("Main", "Blog 1", "Blog 2", "Blog 3", "About"))
+page = st.sidebar.radio("Navigation", ("Main", "Blog 1", "Blog 2", "Blog 3", "About"))
 
 # Page routing
 if page == "Main":
