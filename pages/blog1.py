@@ -1,6 +1,16 @@
 import streamlit as st
 from sidebar import sidebar
 
+st.markdown(
+    """
+    <style>
+    /* Hide the entire Streamlit header */
+    header {visibility: hidden;}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 st.title("Blog Post #1: Analog Synthesizers")
 st.write("""
