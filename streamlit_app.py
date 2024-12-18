@@ -28,6 +28,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.page_link("blog1.py", label="Home", icon="🏠")
-st.page_link("blog2.py", label="Page 1", icon="1️⃣")
-st.page_link("blog3.py", label="Page 2", icon="2️⃣", disabled=True)
+st.page_link("pages/blog1.py", label="Home", icon="🏠")
+st.page_link("pages/blog2.py", label="Page 1", icon="1️⃣")
+st.page_link("pages/blog3.py", label="Page 2", icon="2️⃣", disabled=True)
