@@ -28,6 +28,10 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.page_link("pages/blog1.py", label="Home", icon="🏠")
-st.page_link("pages/blog2.py", label="Page 1", icon="1️⃣")
-st.page_link("pages/blog3.py", label="Page 2", icon="2️⃣", disabled=True)
+st.title("David Audio")
+st.write("Welcome to David Audio, a space where we delve into music, soundscapes, and audio equipment. "
+        "Choose a blog post below or learn more about me.")
+
+st.page_link("pages/blog1.py")
+st.page_link("pages/blog2.py")
+st.page_link("pages/blog3.py")
