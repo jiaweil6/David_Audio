@@ -1,8 +1,4 @@
 import streamlit as st
-from blog1 import blog1_page
-from blog2 import blog2_page
-from blog3 import blog3_page
-from about import about_page
 
 # Set page configuration
 st.set_page_config(
