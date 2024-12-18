@@ -28,6 +28,7 @@ st.title("David Audio")
 st.write("Welcome to David Audio, a space where we delve into music, soundscapes, and audio equipment. "
         "Choose a blog post below or learn more about me.")
 
-st.page_link("pages/blog1.py")
-st.page_link("pages/blog2.py")
-st.page_link("pages/blog3.py")
+# Custom page links with names
+st.markdown("[Blog Post 1](pages/blog1.py)")
+st.markdown("[Blog Post 2](pages/blog2.py)")
+st.markdown("[Blog Post 3](pages/blog3.py)")
