@@ -14,7 +14,16 @@ st.set_page_config(
     }
 )
 
-
+# Custom CSS to hide the entire header
+st.markdown(
+    """
+    <style>
+    /* Hide the entire Streamlit header */
+    header {visibility: hidden;}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 st.title("David Audio")
 st.write("Welcome to David Audio, a space where we delve into music, soundscapes, and audio equipment. "

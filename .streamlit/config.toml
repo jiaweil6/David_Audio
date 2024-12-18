@@ -1,10 +1,9 @@
 [client]
-showSidebarNavigation = false
-toolbarMode = "minimal"
+showSidebarNavigation = false d
 
 [theme]
 primaryColor="#4A90E2"
 backgroundColor="#F7F9FC"
 secondaryBackgroundColor="#E1E8ED"
 textColor="#2C3E50"
-font="monospace"
+font="rockwell"
