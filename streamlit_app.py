@@ -7,12 +7,6 @@ with open( "style.css" ) as css:
 
 # Custom CSS to hide the entire header
 st.markdown(
-    """
-    <style>
-    /* Hide the entire Streamlit header */
-    header {visibility: hidden;}
-    </style>
-    """,
     unsafe_allow_html=True
 )
 
