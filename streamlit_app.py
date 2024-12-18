@@ -52,7 +52,7 @@ st.sidebar.markdown("[Blog 3](#blog-3)", unsafe_allow_html=True)
 st.sidebar.markdown("[About](#about)", unsafe_allow_html=True)
 
 # Page routing
-page = st.experimental_get_query_params().get("page", ["Main"])[0]
+page = st.query_params().get("page", ["Main"])[0]
 
 if page == "Main":
     st.title("David Audio")
