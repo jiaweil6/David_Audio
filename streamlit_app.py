@@ -28,7 +28,6 @@ st.title("David Audio")
 st.write("Welcome to David Audio, a space where we delve into music, soundscapes, and audio equipment. "
         "Choose a blog post below or learn more about me.")
 
-with st.sidebar:
-    st.page_link("pages/blog1.py", label="Blog 1", icon="🎧")
-    st.page_link("pages/blog2.py", label="Blog 2", icon="🎧")
-    st.page_link("pages/blog3.py", label="Blog 3", icon="🎧")
+st.sidebar.page_link("pages/blog1.py", label="Blog 1", icon="🎧")
+st.sidebar.page_link("pages/blog2.py", label="Blog 2", icon="🎧")
+st.sidebar.page_link("pages/blog3.py", label="Blog 3", icon="🎧")
