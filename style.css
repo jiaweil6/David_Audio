@@ -6,8 +6,6 @@ header {
 
 html, body, [class*="css"] {
     font-family: 'Courier Prime'; 
-    font-size: 18px;
-    font-weight: 500;
     color: #091747;
 }
 
