@@ -9,6 +9,10 @@ html, body, [class*="css"] {
     color: #091747;
 }
 
+p {
+    font-family: 'Courier Prime';
+}
+
 .courier-prime-regular {
     font-family: "Courier Prime";
     font-weight: 400;
