@@ -29,6 +29,6 @@ st.write("Welcome to David Audio, a space where we delve into music, soundscapes
         "Choose a blog post below or learn more about me.")
 
 with st.sidebar:
-    st.page_link("pages/blog1.py", label="Blog 1", icon="🎧", disabled=True)
-    st.page_link("pages/blog2.py", label="Blog 2", icon="🎧", disabled=True)
-    st.page_link("pages/blog3.py", label="Blog 3", icon="🎧", disabled=True)
+    st.page_link("pages/blog1.py", label="Blog 1", icon="🎧")
+    st.page_link("pages/blog2.py", label="Blog 2", icon="🎧")
+    st.page_link("pages/blog3.py", label="Blog 3", icon="🎧")
