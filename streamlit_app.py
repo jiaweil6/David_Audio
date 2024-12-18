@@ -4,18 +4,6 @@ from sidebar import sidebar
 with open( "style.css" ) as css:
     st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
 
-# Set page configuration
-st.set_page_config(
-    page_title="David Audio", 
-    page_icon="🎧", 
-    layout="centered",
-    initial_sidebar_state="auto",
-    menu_items={
-        'Get Help': None,
-        'Report a bug': None,
-        'About': None
-    }
-)
 
 # Custom CSS to hide the entire header
 st.markdown(
