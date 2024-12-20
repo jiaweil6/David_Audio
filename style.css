@@ -6,18 +6,10 @@ header {
 
 html, body, [class*="css"] {
     font-family: 'Courier Prime'; 
-    background-color: #5C2018;
-    color: #F3E0DC;
-}
-
-.main{
-    background-color: #5C2018;
-    color: #F3E0DC;
 }
 
 p {
     font-family: 'Courier Prime';
-    color: #F3E0DC;
 }
 
 .courier-prime-regular {
