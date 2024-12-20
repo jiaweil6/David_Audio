@@ -4,10 +4,6 @@ header {
     visibility: hidden;
 }
 
-html, body, [class*="css"] {
-    font-family: 'Courier Prime'; 
-}
-
 h1 {
     font-family: 'Courier Prime';
     font-weight: 700;
