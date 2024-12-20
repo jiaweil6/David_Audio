@@ -5,10 +5,10 @@ header {
 }
 
 h1 {
-    font-family: 'Courier Prime';
+    font-family: 'Courier Prime' !important;
     color: #66FCF1 !important;
-    font-size: 36px;
-    font-weight: 700;
+    font-size: 48px !important;
+    font-weight: 700 !important;
 }
 
 p {
