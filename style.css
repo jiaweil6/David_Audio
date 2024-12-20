@@ -26,6 +26,7 @@ h1 {
     color: #66FCF1 !important;
     font-weight: 800 !important;
     text-align: center !important;
+    font-size: 36px !important;
 }
 
 p {
@@ -42,37 +43,6 @@ p {
     font-family: "Courier Prime";
     font-weight: 700;
     font-style: normal;
-}
-
-/* Media queries for responsive font sizes */
-@media screen and (min-width: 992px) {
-    /* Desktop/Laptop */
-    .nav-content {
-        justify-content: space-between;
-        padding: 0 100px;
-    }
-    h1 {
-        font-size: 36px !important;
-    }
-    .nav-button {
-        font-size: 16px !important;
-    }
-}
-
-@media screen and (max-width: 991px) {
-    /* Tablet/Mobile */
-    .nav-content {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-    h1 {
-        font-size: 24px !important;
-    }
-    .nav-button {
-        font-size: 14px !important;
-        padding: 6px 24px !important;
-    }
 }
 
 /* Add these new styles */
