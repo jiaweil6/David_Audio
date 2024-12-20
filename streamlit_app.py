@@ -10,8 +10,10 @@ st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootst
 
 st.markdown("""
 <nav class="navbar fixed-top navbar-expand-lg" style="background-color: #1F2833;">
-    <div style="display: flex; justify-content: center; width: 100%; padding: 1rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 1rem;">
+        <div style="width: 100px;"></div> <!-- Spacer for balance -->
         <h1 style="margin: 0; color: #66FCF1; font-family: 'Courier Prime';">David Audio</h1>
+        <a href="about" class="nav-button">About Me</a>
     </div>
 </nav>
 """, unsafe_allow_html=True)
