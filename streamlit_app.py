@@ -12,7 +12,7 @@ st.markdown("""
 <nav class="navbar fixed-top navbar-expand-lg">
     <div class="nav-container">
         <div class="nav-content">
-            <h1 style="margin: 0; color: #66FCF1; align-items: center; font-family: 'Schoolbell';">DAVID AUDIO</h1>
+            <h1 style="margin: 0; color: #66FCF1; display: flex; align-items: center; font-family: 'Schoolbell';">DAVID AUDIO</h1>
             <a href="about" class="nav-button">About Me</a>
         </div>
     </div>
