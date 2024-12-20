@@ -8,7 +8,7 @@ header {
 .nav-button {
     color: #66FCF1;
     padding: 8px 16px;
-    text-decoration: none;
+    text-decoration: none !important;
     font-family: 'Schoolbell';
     font-weight: 700;
     transition: all 0.3s ease;
@@ -18,7 +18,7 @@ header {
 .nav-button:hover {
     background-color: #66FCF1;
     color: #1F2833;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 h1 {
