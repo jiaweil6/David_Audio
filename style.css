@@ -47,6 +47,10 @@ p {
 /* Media queries for responsive font sizes */
 @media screen and (min-width: 992px) {
     /* Desktop/Laptop */
+    .nav-content {
+        justify-content: space-between;
+        padding: 0 100px;
+    }
     h1 {
         font-size: 36px !important;
     }
@@ -60,6 +64,7 @@ p {
     .nav-content {
         flex-direction: column;
         gap: 1rem;
+        text-align: center;
     }
     h1 {
         font-size: 24px !important;
@@ -78,7 +83,8 @@ p {
 
 .nav-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 100%;
+    gap: 2rem;
 }
