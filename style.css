@@ -6,7 +6,7 @@ header {
 }
 
 .nav-button {
-    color: #66FCF1;
+    color: #C5C6C7 !important;
     padding: 8px 16px;
     text-decoration: none !important;
     font-family: 'Schoolbell';
@@ -16,8 +16,7 @@ header {
 }
 
 .nav-button:hover {
-    background-color: #66FCF1;
-    color: #1F2833;
+    color: #66FCF1 !important;
     text-decoration: none !important;
 }
 
