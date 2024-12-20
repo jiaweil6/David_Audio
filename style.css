@@ -24,7 +24,6 @@ header {
 h1 {
     font-family: 'Schoolbell' !important;
     color: #66FCF1 !important;
-    font-size: 36px !important;
     font-weight: 800 !important;
     text-align: center !important;
 }
@@ -43,4 +42,26 @@ p {
     font-family: "Courier Prime";
     font-weight: 700;
     font-style: normal;
+}
+
+/* Media queries for responsive font sizes */
+@media screen and (min-width: 992px) {
+    /* Desktop/Laptop */
+    h1 {
+        font-size: 36px !important;
+    }
+    .nav-button {
+        font-size: 16px !important;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    /* Tablet/Mobile */
+    h1 {
+        font-size: 24px !important;
+    }
+    .nav-button {
+        font-size: 14px !important;
+        padding: 6px 24px !important;
+    }
 }
