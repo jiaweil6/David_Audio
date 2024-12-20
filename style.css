@@ -8,6 +8,11 @@ html, body, [class*="css"] {
     font-family: 'Courier Prime'; 
 }
 
+h1 {
+    font-family: 'Courier Prime';
+    font-weight: 700;
+}
+
 p {
     font-family: 'Courier Prime';
 }
