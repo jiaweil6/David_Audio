@@ -14,9 +14,9 @@ st.logo(sidebar_logo, size="large", icon_image=main_body_logo)
 # Add some padding to prevent content from being hidden behind the navbar
 st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
 
-st.html("<h1> <span style='color:#C5C6C7;'>Welcome to DAVID AUDIO 🎧</span></h1>")
+st.html("<h1> <span style='color:#C5C6C7;'>Welcome to</span> DAVID AUDIO 🎧</h1>")
 
-st.markdown('<div style="margin-top: 20px;"></div>', unsafe_allow_html=True)
+st.markdown('<div style="margin-top: 10px;"></div>', unsafe_allow_html=True)
 
 st.write("""
 A space where we break down **audio synthesis** and **audio processing** into easy-to-understand demonstrations,  
