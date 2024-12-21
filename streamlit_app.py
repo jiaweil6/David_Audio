@@ -16,21 +16,19 @@ st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
 
 st.write("""
 # Welcome to **DAVID AUDIO** 🎧  
-Your destination for exploring the fascinating world of **audio synthesis** and **audio processing** in real-world applications!
+A space where we break down **audio synthesis** and **audio processing** into easy-to-understand demonstrations,  
+showing how theory directly applies to real-world audio applications.  
 
-While there’s no shortage of online resources about signals and systems, **practical, audio-focused guidance is scarce.**  
-That’s where **theory meets practice**—helping you bridge the gap and bring your audio ideas to life.  
+While there’s a wealth of resources on signals and systems, audio-specific guides are hard to come by.  
+Here, we focus on bridging the gap—offering clear examples that connect the dots between theory and its practical use in audio.  
 
-🎯 **What to explore?**  
-- Dive into curated blog posts below  
-- Learn more about me and my journey  
+📚 **Explore**  
+- Browse through insightful blog posts  
+- Learn more about my journey in audio  
 
-💡 **Want to contribute?**  
-Email me at [jiaweil6@andrew.cmu.edu](mailto:jiaweil6@andrew.cmu.edu) and share your expertise to enrich the audio community!  
+💌 **Contribute**  
+Got insights to share? Email me at [jiaweil6@andrew.cmu.edu](mailto:jiaweil6@andrew.cmu.edu) to help grow this audio community.  
 """)
 
-st.latex(r''' 
-    \int_{0}^{\infty} f(x) dx
-''')
 
 
