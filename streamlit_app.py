@@ -12,6 +12,7 @@ st.markdown("""
 <nav class="navbar fixed-top navbar-expand-lg">
     <div class="nav-container">
         <div class="nav-content">
+            <img src="images/logo.svg" alt="Logo" class="nav-logo">
             <h1>DAVID AUDIO</h1>
             <a href="about" class="nav-button">About Me</a>
         </div>

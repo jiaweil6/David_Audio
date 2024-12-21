@@ -100,3 +100,8 @@ p {
 .footer-content a:hover {
     text-decoration: underline;
 }
+
+.nav-logo {
+    max-height: 50px; /* Adjust the size as needed */
+    margin-bottom: 0.5rem; /* Space between logo and text */
+}
