@@ -76,17 +76,3 @@ p {
     align-items: center;
     width: 100%;
 }
-
-/* Update navbar styles */
-.navbar {
-    position: fixed !important;
-    width: calc(100% - var(--sidebar-width)) !important;
-    transition: width 300ms ease-in-out !important;
-    margin-left: var(--sidebar-width) !important;
-}
-
-/* For when sidebar is collapsed */
-[data-testid="collapsedControl"] ~ div .navbar {
-    width: calc(100% - 24px) !important;
-    margin-left: 24px !important;
-}
