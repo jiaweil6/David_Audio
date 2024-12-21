@@ -105,3 +105,14 @@ p {
     max-height: 50px; /* Adjust the size as needed */
     margin-bottom: 0.5rem; /* Space between logo and text */
 }
+
+div[data-testid="stSidebarHeader"] > img, div[data-testid="collapsedControl"] > img {
+    height: 3rem;
+    width: auto;
+}
+
+div[data-testid="stSidebarHeader"], div[data-testid="stSidebarHeader"] > *,
+div[data-testid="collapsedControl"], div[data-testid="collapsedControl"] > * {
+    display: flex;
+    align-items: center;
+}
