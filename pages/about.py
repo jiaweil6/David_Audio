@@ -38,12 +38,12 @@ st.markdown("""
             <i class="bi bi-linkedin"></i>
         </button>
     </a>
-    <a href="static/Resume.pdf" target="_blank">
+    <iframe id="iframepdf" src="static/Resume.pdf">
         <button>
             <i class="bi bi-file-earmark-person"></i>
         </button>
-    </a>
-     <a href="www.jiaweismusic.com" target="_blank">
+    </iframe>
+     <a href="https://www.jiaweismusic.com/" target="_blank">
         <button>
             <i class="bi bi-music-note-beamed"></i>
         </button>
