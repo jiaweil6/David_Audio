@@ -14,8 +14,9 @@ st.logo(sidebar_logo, size="large", icon_image=main_body_logo)
 # Add some padding to prevent content from being hidden behind the navbar
 st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
 
+st.title("Welcome to **DAVID AUDIO** 🎧")
+
 st.write("""
-# Welcome to **DAVID AUDIO** 🎧  
 A space where we break down **audio synthesis** and **audio processing** into easy-to-understand demonstrations,  
 showing how theory directly applies to real-world audio applications.  
 
