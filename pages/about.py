@@ -27,7 +27,7 @@ I’m not saying the math isn’t important, but I’d like to make it more fun 
 st.markdown('<div style="margin-top: 5px;"></div>', unsafe_allow_html=True)
 
 st.markdown("""
-<div class="contact-buttons" style="display: flex; justify-content: space-around; margin-top: 20px;">
+<div class="contact-buttons">
     <a href="mailto:your-email@example.com" target="_blank">
         <button style="padding: 10px 20px; font-size: 24px; border-radius: 50%;">
             <i class="bi bi-envelope"></i>
