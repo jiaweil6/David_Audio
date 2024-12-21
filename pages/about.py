@@ -38,9 +38,14 @@ st.markdown("""
             <i class="bi bi-linkedin"></i>
         </button>
     </a>
-    <a href="images/Resume.pdf" target="_blank">
+    <a href="static/Resume.pdf" target="_blank">
         <button>
             <i class="bi bi-file-earmark-person"></i>
+        </button>
+    </a>
+     <a href="www.jiaweismusic.com" target="_blank">
+        <button>
+            <i class="bi bi-music-note-beamed"></i>
         </button>
     </a>
 </div>
