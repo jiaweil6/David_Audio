@@ -68,6 +68,7 @@ p {
 .nav-container {
     width: 100%;
     padding: 1rem;
+    transition: all 300ms ease-in-out !important;
 }
 
 .nav-content {
@@ -80,13 +81,20 @@ p {
 /* Update navbar styles */
 .navbar {
     position: fixed !important;
-    width: calc(100% - var(--sidebar-width)) !important;
-    transition: width 300ms ease-in-out !important;
-    margin-left: var(--sidebar-width) !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: var(--sidebar-width, 260px) !important;
+    transition: left 300ms ease-in-out !important;
+    background-color: #1F2833 !important;
+    z-index: 1000 !important;
 }
 
 /* For when sidebar is collapsed */
 [data-testid="collapsedControl"] ~ div .navbar {
-    width: calc(100% - 24px) !important;
-    margin-left: 24px !important;
+    left: 24px !important;
+}
+
+/* Ensure content below navbar doesn't get hidden */
+[data-testid="stAppViewContainer"] > div:nth-child(1) {
+    padding-top: 100px !important;
 }
