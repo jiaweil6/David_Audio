@@ -124,8 +124,9 @@ div[data-testid="collapsedControl"], div[data-testid="collapsedControl"] > * {
 
 .contact-buttons {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .contact-buttons a button {
@@ -137,6 +138,6 @@ div[data-testid="collapsedControl"], div[data-testid="collapsedControl"] > * {
 
 .contact-buttons a button:hover {
     background-color: #66FCF1; /* Example hover effect */
-    color: #fff; /* Example text color on hover */
+    color: #0B0C10; /* Example text color on hover */
 }
 
