@@ -16,7 +16,7 @@ st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
 
 st.html("<h1> <span style='color:#F8F8FF;'>Welcome to</span> DAVID AUDIO 🎧</h1>")
 
-st.markdown('<div style="margin-top: 5px;"></div>', unsafe_allow_html=True)
+# st.markdown('<div style="margin-top: 5px;"></div>', unsafe_allow_html=True)
 
 st.write("""
 A space where we break down **audio synthesis** and **audio processing** into easy-to-understand demonstrations, showing how theory directly applies to real-world audio applications.  
