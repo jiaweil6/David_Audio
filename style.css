@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Schoolbell&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plaster&display=swap');
 
 header {
     visibility: hidden;
@@ -25,9 +26,8 @@ div.embeddedAppMetaInfoBar_container__DxxL1 {visibility: hidden;}
 }
 
 h1 {
-    font-family: 'Schoolbell' !important;
+    font-family: 'Plaster' !important;
     color: #66FCF1 !important;
-    font-weight: 800 !important;
     text-align: center !important;
     font-size: 36px !important;
 }
