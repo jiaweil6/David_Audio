@@ -30,17 +30,17 @@ st.markdown("""
 <div style="display: flex; justify-content: space-around; margin-top: 20px;">
     <a href="mailto:your-email@example.com" target="_blank">
         <button style="padding: 10px 20px; font-size: 16px;">
-            <i class="fa-solid fa-envelope"></i>
+            <i class="bi bi-envelope"></i>
         </button>
     </a>
     <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank">
         <button style="padding: 10px 20px; font-size: 16px;">
-            <i class="fa-brands fa-linkedin"></i>
+            <i class="bi bi-linkedin"></i>
         </button>
     </a>
     <a href="path/to/your-cv.pdf" target="_blank">
         <button style="padding: 10px 20px; font-size: 16px;">
-            <i class="fa-solid fa-file"></i>
+            <i class="bi bi-file-earmark-person"></i>
         </button>
     </a>
 </div>
