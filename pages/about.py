@@ -29,17 +29,17 @@ st.markdown('<div style="margin-top: 5px;"></div>', unsafe_allow_html=True)
 st.markdown("""
 <div class="contact-buttons">
     <a href="mailto:your-email@example.com" target="_blank">
-        <button style="padding: 10px 20px; font-size: 24px; border-radius: 50%;">
+        <button>
             <i class="bi bi-envelope"></i>
         </button>
     </a>
     <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank">
-        <button style="padding: 10px 20px; font-size: 24px; border-radius: 50%;">
+        <button>
             <i class="bi bi-linkedin"></i>
         </button>
     </a>
     <a href="path/to/your-cv.pdf" target="_blank">
-        <button style="padding: 10px 20px; font-size: 24px; border-radius: 50%;">
+        <button>
             <i class="bi bi-file-earmark-person"></i>
         </button>
     </a>
