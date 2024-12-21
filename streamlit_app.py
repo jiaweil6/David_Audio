@@ -11,21 +11,6 @@ main_body_logo = "images/icon.png"
 
 st.logo(sidebar_logo, size="large", icon_image=main_body_logo)
 
-
-st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
-
-st.markdown("""
-<nav class="navbar fixed-top navbar-expand-lg">
-    <div class="nav-container">
-        <div class="nav-content">
-            <img src="static/logo.png" alt="Logo" class="nav-logo">
-            <h1>DAVID AUDIO</h1>
-            <a href="about" class="nav-button">About Me</a>
-        </div>
-    </div>
-</nav>
-""", unsafe_allow_html=True)
-
 # Add some padding to prevent content from being hidden behind the navbar
 st.markdown('<div style="margin-top: 100px;"></div>', unsafe_allow_html=True)
 
