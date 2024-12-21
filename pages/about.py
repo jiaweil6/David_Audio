@@ -38,7 +38,7 @@ st.markdown("""
             <i class="bi bi-linkedin"></i>
         </button>
     </a>
-    <a href="static/Resume.pdf" target="_blank">
+    <a href="https://drive.google.com/file/d/1E08lU3L4KiYLvLIT6my5WD6OFdSnjYPg/view?usp=sharing" target="_blank">
         <button>
             <i class="bi bi-file-earmark-person"></i>
         </button>
