@@ -19,14 +19,15 @@ st.html("<h1> <span style='color:#F8F8FF;'>Welcome to</span> DAVID AUDIO 🎧</h
 # st.markdown('<div style="margin-top: 5px;"></div>', unsafe_allow_html=True)
 
 st.write("""
-A space where we break down **audio synthesis** and **audio processing** into easy-to-understand demonstrations, showing how theory directly applies to real-world audio applications.  
+A space where we break down **audio synthesis 🔊** and **audio processing 🎛️** into easy-to-understand demonstrations, showing how theory directly applies to real-world audio applications.  
 
-While there’s a wealth of resources on signals and systems, audio-specific guides are hard to come by. 
+While there’s a wealth of resources on signals and systems, audio-specific guides are hard to come by 😤. 
 
-Here, we focus on bridging the gap—offering clear examples that connect the dots between theory and its practical use in audio.   
+Here, we focus on bridging the gap—offering clear examples that connect the dots between theory and its practical use in audio 😎.   
+
 
 💌 **Contribute**  
-Got insights to share? Email me at [jiaweil6@andrew.cmu.edu](mailto:jiaweil6@andrew.cmu.edu) to help grow this audio community.  
+Got insights to share? Email me at [jiaweil6@andrew.cmu.edu](mailto:jiaweil6@andrew.cmu.edu) to help grow this audio community 🥰.  
 """)
 
 
