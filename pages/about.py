@@ -27,13 +27,13 @@ I’m not saying the math isn’t important, but I’d like to make it more fun 
 st.markdown("""
 <div style="display: flex; justify-content: space-around; margin-top: 20px;">
     <a href="mailto:your-email@example.com" target="_blank">
-        <button style="padding: 10px 20px; font-size: 16px;">Email</button>
+        <button style="padding: 10px 20px; font-size: 16px;"><i class="fa-solid fa-envelope"></i></button>
     </a>
     <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank">
-        <button style="padding: 10px 20px; font-size: 16px;">LinkedIn</button>
+        <button style="padding: 10px 20px; font-size: 16px;"><i class="fa-brands fa-linkedin"></i></button>
     </a>
     <a href="path/to/your-cv.pdf" target="_blank">
-        <button style="padding: 10px 20px; font-size: 16px;">CV</button>
+        <button style="padding: 10px 20px; font-size: 16px;"><i class="fa-solid fa-file"></i></button>
     </a>
 </div>
 """, unsafe_allow_html=True)
