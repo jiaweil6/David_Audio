@@ -7,14 +7,7 @@ main_body_logo = "images/icon.png"
 
 st.logo(sidebar_logo, size="large", icon_image=main_body_logo)
 
-with open( "style.css" ) as css:
-    st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
-# Add some padding to prevent content from being hidden behind the navbar
-st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
-
-st.html("<h1> <span style='color:#F8F8FF;'>About Me</span></h1>")
-
-# st.markdown('<div style="margin-top: 5px;"></div>', unsafe_allow_html=True)
+st.markdown("""<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">""", unsafe_allow_html=True)
 
 st.write("""
 Hi! I'm David, an engineer 👨‍🔬 and musician 🎸 currently pursuing a degree in Music and Technology as a sophomore at Carnegie Mellon University 🍈.
@@ -29,7 +22,7 @@ st.markdown("""
 <div style="display: flex; justify-content: space-around; margin-top: 20px;">
     <a href="mailto:your-email@example.com" target="_blank">
         <button style="padding: 10px 20px; font-size: 16px;">
-            &#xF32F
+            <i class="fa fa-envelope"></i>
         </button>
     </a>
     <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank">
