@@ -27,7 +27,7 @@ I’m not saying the math isn’t important, but I’d like to make it more fun 
 st.markdown("""
 <div style="display: flex; justify-content: space-around; margin-top: 20px;">
     <a href="mailto:your-email@example.com" target="_blank">
-        <button style="padding: 10px 20px; font-size: 16px;"><i class="fa-solid fa-envelope"></i></button>
+        <button style="padding: 10px 20px; font-size: 16px;">&#xF32F</button>
     </a>
     <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank">
         <button style="padding: 10px 20px; font-size: 16px;"><i class="fa-brands fa-linkedin"></i></button>
