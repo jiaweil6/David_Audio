@@ -14,7 +14,7 @@ st.logo(sidebar_logo, size="large", icon_image=main_body_logo)
 # Add some padding to prevent content from being hidden behind the navbar
 st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
 
-st.html("<h1> <span style='color:#C5C6C7;'>Welcome to</span> DAVID AUDIO 🎧</h1>")
+st.html("<h1> <span style='color:#F8F8FF;'>Welcome to</span> DAVID AUDIO 🎧</h1>")
 
 st.markdown('<div style="margin-top: 10px;"></div>', unsafe_allow_html=True)
 
