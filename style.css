@@ -122,3 +122,21 @@ div[data-testid="collapsedControl"], div[data-testid="collapsedControl"] > * {
     align-items: center;
 }
 
+.contact-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.contact-buttons a button {
+    padding: 10px 20px;
+    font-size: 24px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.contact-buttons a button:hover {
+    background-color: #66FCF1; /* Example hover effect */
+    color: #fff; /* Example text color on hover */
+}
+
