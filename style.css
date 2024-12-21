@@ -4,6 +4,9 @@
 header {
     visibility: hidden;
 }
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+div.embeddedAppMetaInfoBar_container__DxxL1 {visibility: hidden;}
 
 .nav-button {
     color: #C5C6C7 !important;
