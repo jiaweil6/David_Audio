@@ -18,8 +18,11 @@ st.markdown("""<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/li
 
 st.write("""
 Hi! I'm **David**, an engineer 👨‍🔬 and musician 🎸 currently pursuing a degree in Music and Technology as a sophomore at **Carnegie Mellon University** 🍈.
+
 Signals and Systems 📡, a course taught at almost every university, finally bridged the gap between what I do every day in music and the underlying computations in audio processing 🔊.
+
 While taking this course, I realized that it’s not always easy to find resources that connect theoretical concepts with their practical applications in audio. 
+
 So, rather than calculating integrals here, I’d like to show you how these concepts are applied to audio.
 I’m not saying the math isn’t important, but I’d like to make it more fun and engaging 😜.
 """)
