@@ -51,6 +51,8 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+st.markdown('<div style="margin-top: 10px;"></div>', unsafe_allow_html=True)
+
 st.image("images/icon.png", use_container_width="always")
 
 

@@ -28,6 +28,8 @@ Here, we focus on bridging the gap—offering clear examples that connect the do
 Got insights to share? Email me at [jiaweil6@andrew.cmu.edu](mailto:jiaweil6@andrew.cmu.edu) to help grow this audio community 🥰.  
 """)
 
+st.markdown('<div style="margin-top: 10px;"></div>', unsafe_allow_html=True)
+
 st.image("images/icon.png", use_container_width="always")
 
 
