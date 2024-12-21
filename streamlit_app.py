@@ -17,4 +17,8 @@ st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
 st.write("Welcome to David Audio, a space where we delve into music, soundscapes, and audio equipment. "
         "Choose a blog post below or learn more about me.")
 
+st.latex(r''' 
+    \int_{0}^{\infty} f(x) dx
+''')
+
 
