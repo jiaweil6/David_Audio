@@ -14,7 +14,7 @@ st.logo(sidebar_logo, size="large", icon_image=main_body_logo)
 # Add some padding to prevent content from being hidden behind the navbar
 st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
 
-st.write("Welcome to David Audio, a space where we delve into music, soundscapes, and audio equipment. "
+st.write("Welcome to :[blue]DAVID :[blue]AUDIO, a space where we delve into music, soundscapes, and audio equipment. "
         "Choose a blog post below or learn more about me.")
 
 st.latex(r''' 
