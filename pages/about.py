@@ -17,11 +17,27 @@ st.html("<h1> <span style='color:#F8F8FF;'>About Me</span></h1>")
 # st.markdown('<div style="margin-top: 5px;"></div>', unsafe_allow_html=True)
 
 st.write("""
-Hi! I'm David, an engineer and musician. I'm currently a sophomore at Carnegie Mellon University, pursuing a degree in Music and Technology. 
-Signals and Systems, a course taught in almost every university, finally linked the bridge between what I've been doing everyday in music and what it is really under the computer.
-While taking this course, I found it is not easy to find resources that connect the dots between theory and its practical use in audio.
-So rather than calculating the integrals here, I'd like to show you how it is applied to audio. I'm not saying the math is not important, but I'd like to make math more fun and interesting.
+Hi! I'm David, an engineer 👨‍🔬 and musician 🎸 currently pursuing a degree in Music and Technology as a sophomore at Carnegie Mellon University 🍈.
+Signals and Systems 📡, a course taught at almost every university, finally bridged the gap between what I do every day in music and the underlying computations in audio processing 🔊.
+While taking this course, I realized that it’s not always easy to find resources that connect theoretical concepts with their practical applications in audio. 
+So, rather than calculating integrals here, I’d like to show you how these concepts are applied to audio.
+I’m not saying the math isn’t important, but I’d like to make it more fun and engaging 😜.
 """)
+
+st.markdown("""
+<div style="display: flex; justify-content: space-around; margin-top: 20px;">
+    <a href="mailto:your-email@example.com" target="_blank">
+        <button style="padding: 10px 20px; font-size: 16px;">Email</button>
+    </a>
+    <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank">
+        <button style="padding: 10px 20px; font-size: 16px;">LinkedIn</button>
+    </a>
+    <a href="path/to/your-cv.pdf" target="_blank">
+        <button style="padding: 10px 20px; font-size: 16px;">CV</button>
+    </a>
+</div>
+""", unsafe_allow_html=True)
+
 
 st.image("images/icon.png", use_container_width="always")
 
