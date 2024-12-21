@@ -25,4 +25,13 @@ st.markdown('<div style="margin-top: 100px;"></div>', unsafe_allow_html=True)
 st.write("Welcome to David Audio, a space where we delve into music, soundscapes, and audio equipment. "
         "Choose a blog post below or learn more about me.")
 
+# Add footer
+st.markdown("""
+<footer class="footer">
+    <div class="footer-content">
+        <p>Send an email to <a href="mailto:contribute@audiocommunity.com">contribute@audiocommunity.com</a> if you want to contribute to the audio community.</p>
+    </div>
+</footer>
+""", unsafe_allow_html=True)
+
 

@@ -76,3 +76,24 @@ p {
     align-items: center;
     width: 100%;
 }
+
+.footer {
+    background-color: #1F2833;
+    color: #C5C6C7;
+    text-align: center;
+    padding: 1rem 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.footer-content a {
+    color: #66FCF1;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-content a:hover {
+    text-decoration: underline;
+}
