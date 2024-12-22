@@ -2,10 +2,8 @@ import streamlit as st
 from sidebar import sidebar
 
 sidebar()
-sidebar_logo = "images/main_logo.png"
 main_body_logo = "images/icon.png"
-
-st.logo(sidebar_logo, size="large", icon_image=main_body_logo)
+st.logo(main_body_logo)
 
 with open( "style.css" ) as css:
     st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)

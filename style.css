@@ -10,16 +10,6 @@ header {
 footer {visibility: hidden;}
 div.embeddedAppMetaInfoBar_container__DxxL1 {visibility: hidden;}
 
-.nav-button {
-    color: #C5C6C7 !important;
-    padding: 8px 32px !important;
-    text-decoration: none !important;
-    font-family: 'Schoolbell';
-    font-size: 16px !important;
-    font-weight: 700;
-    transition: all 0.3s ease;
-    text-align: center;
-}
 
 .nav-button:hover {
     color: #66FCF1 !important;
@@ -31,6 +21,19 @@ h1 {
     color: #66FCF1 !important;
     text-align: center !important;
     font-size: 36px !important;
+}
+
+h2 {
+    font-family: 'Plaster' !important;
+    color: #F8F8FF !important;
+    text-align: left !important;
+    font-size: 32px !important;
+}
+
+u {
+    text-decoration-line: underline;
+    text-decoration-color: #66FCF1 !important;
+    text-decoration: underline;
 }
 
 p {
@@ -81,29 +84,6 @@ p {
     justify-content: center;
     align-items: center;
     width: 100%;
-}
-
-.footer {
-    background-color: #1F2833;
-    color: #C5C6C7;
-    text-align: center;
-    padding: 1rem 0;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
-.footer-content a {
-    color: #66FCF1;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.footer-content a:hover {
-    text-decoration: underline;
 }
 
 [alt=Logo] {
