@@ -14,8 +14,8 @@ st.markdown("<h2>What is <u>Convolution</u>? <br> What does it mean in audio?</h
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
-subsection = '''Writer: <a href="pages/about.py">David Liu</a><br>
-Editor: <a href="pages/about.py">David Liu</a><br>
+subsection = '''Writer: <a href="pages/about.py" target="_blank">David Liu</a><br>
+Editor: <a href="pages/about.py" target="_blank">David Liu</a><br>
 Date: 2024-12-22
 '''
 
