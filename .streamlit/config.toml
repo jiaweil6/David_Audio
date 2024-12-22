@@ -6,7 +6,6 @@ primaryColor="#66FCF1"
 backgroundColor="#0B0C10"
 secondaryBackgroundColor="#1F2833"
 textColor="#C5C6C7"
-font="Courier Prime"
 
 [server]
 enableStaticServing = true
