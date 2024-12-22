@@ -103,6 +103,22 @@ st.write("""
     Although that is not how you retrieve the impulse response practically in real life, but it is a good intuition on the mathematical definition of impulse response.
 """)
 
+st.write("""
+    Now that we captured the impulse response or the "effect", we can apply it to the dry signal.
+    To obtain the output signal of the dry signal with the concert hall reverb, we will perform the convolution of the dry signal and the impulse response.
+""")
+
+st.latex("y(t) = (x \\ast h)(t)")
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.write("""
+    In the digital world, we can't perform the convolution directly on the continuous signal due to the limitation of computer processing power.
+    We will discretize the signal into samples and perform discrete convolution. We now have the face the funky integral which becomes a sum in discrete domain.
+""")
+
+st.latex("y[n] = \\sum_{k=0}^{N-1} x[k] h[n-k]")
+
 st.image("images/icon.png", use_container_width="always")
 
 
