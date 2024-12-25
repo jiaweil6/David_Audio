@@ -3,7 +3,6 @@ from sidebar import sidebar
 from streamlit_react_flow import react_flow
 import numpy as np
 from pydub import AudioSegment
-import io
 
 sidebar()
 main_body_logo = "images/icon.png"
@@ -181,16 +180,6 @@ if audio_value is not None:
 
     # 1. Retrieve raw bytes (WebM/Opus)
     webm_data = audio_value.getvalue()
-    
-    # 2. Convert WebM to an AudioSegment
-    audio_segment = AudioSegment.from_file(io.BytesIO(webm_data), format="webm")
-
-    # 3. Export audio_segment to in-memory WAV
-    wav_io = io.BytesIO()
-    audio_segment.export(wav_io, format="wav")
-
-    # 4. Get the WAV bytes
-    wav_bytes = wav_io.getvalue()
 
 
 
