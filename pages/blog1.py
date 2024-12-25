@@ -1,6 +1,9 @@
 import streamlit as st
 from sidebar import sidebar
 from streamlit_react_flow import react_flow
+import numpy as np
+from pydub import AudioSegment
+import io
 
 sidebar()
 main_body_logo = "images/icon.png"
@@ -170,9 +173,30 @@ st.divider()
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.subheader("Try it yourself!")
-    
-st.markdown('<div style="margin-top: 200px;"></div>', unsafe_allow_html=True)
 
+audio_value = st.audio_input("Record your voice here.")
+
+if audio_value is not None:
+    st.write("Converting your recorded audio to WAV in memory...")
+
+    # 1. Retrieve raw bytes (WebM/Opus)
+    webm_data = audio_value.getvalue()
+    
+    # 2. Convert WebM to an AudioSegment
+    audio_segment = AudioSegment.from_file(io.BytesIO(webm_data), format="webm")
+
+    # 3. Export audio_segment to in-memory WAV
+    wav_io = io.BytesIO()
+    audio_segment.export(wav_io, format="wav")
+
+    # 4. Get the WAV bytes
+    wav_bytes = wav_io.getvalue()
+
+
+
+
+
+st.markdown('<div style="margin-top: 200px;"></div>', unsafe_allow_html=True)
 
 st.image("images/icon.png", use_container_width="always")
 
