@@ -26,18 +26,20 @@ st.divider()
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
+st.subheader("Introduction")
+
 st.write("""
 Convolution is a special mathematical operation that combines two signals to procure a third signal. 
 Probably heard it from Convolution-reverb and IR simulation. You don’t want to read through the entire Wikipedia page just to find out that you are still clueless about convolution.
 
-Convolution of two signal $f$ and $h$ is written $f \\ast h$ where:
+Convolution of two signal $x$ and $h$ is written $x \\ast h$ where:
 """)
 
-st.latex(r"(f \ast h)(t) = \int_{-\infty}^{\infty} f(\tau) h(t - \tau) d\tau")
+st.latex(r"(x \ast h)(t) = \int_{-\infty}^{\infty} x(\tau) h(t - \tau) d\tau")
 
 st.write("""
 Don’t leave yet, I know you are probably clueless on what the heck this funky looking integral is. Exactly what I thought first time seeing it! 
-Think of signal $f$ as the input signal, or the dry signal. And think of signal $h$ as a mystery box, or effect that allows signals to go through. 
+Think of signal $x$ as the input signal, or the dry signal. And think of signal $h$ as a mystery box, or effect that allows signals to go through. 
 """)
 
 elements = [
@@ -87,13 +89,19 @@ react_flow(
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
+st.divider()
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.subheader("Intuition of Impulse Response")
+
 st.write("""
     As said, signal $h$ just a effect we want to apply to the dry signal. We sometimes refer to this signal as the system or the impulse response.
     Mathematically, the impulse response is the output of the system when the input is an impulse signal.
 """)
 
 st.latex("x(t) = \delta(t)")
-st.latex("y(t) = h(t)")
+st.latex("(x \\ast h) (t) = y(t) = h(t)")
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
@@ -112,12 +120,59 @@ st.latex("y(t) = (x \\ast h)(t)")
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
+st.divider()
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.subheader("Practical Scenarios")
+
 st.write("""
-    In the digital world, we can't perform the convolution directly on the continuous signal due to the limitation of computer processing power.
-    We will discretize the signal into samples and perform discrete convolution. We now have the face the funky integral which becomes a sum in discrete domain.
+    In the digital world, we can't perform the convolution directly on the continuous signal due to the limited computer processing power.
+    We will discretize the signal into samples and perform discrete convolution. Now the funky integral becomes a sum in discrete domain.
 """)
 
 st.latex("y[n] = \\sum_{k=0}^{N-1} x[k] h[n-k]")
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.write("""
+    Don't calculate your $y[n]$ just yet, imagine your $N$ is a billion where you have a super long signal. This summation would take forever! How can this be done in real-time?
+    We the engineers got the trick to work around it. All signals have two domains, the time domain and the frequency domain.
+    Convolution in time domain is actualy multiplication in the frequency domain! 
+""")
+
+st.latex("x[n] \\ast h[n] \longleftrightarrow X[e^{j\Omega}] \cdot H[e^{j\Omega}]")
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.write("""
+    How do we find the signal in frequency domain? This is rather technical but very very efficient.
+    Fourier Transform, more specifically FFT (Fast Fourier Transform).
+    Not going to scary you with big equations yet, it basically convert signal from it's time domain to it's frequency domain. 
+    Vice versa, after multiplying two signals in the frequency domain, we perform the Inverse Fourier Fransform to get our time domain signal back which we could play it through a loud speaker.
+""")
+
+st.latex("x[n] \\longrightarrow X[e^{j\Omega}]")
+st.latex("h[n] \\longrightarrow H[e^{j\Omega}]")
+st.latex("Y[e^{j\Omega}] = X[e^{j\Omega}] \cdot H[e^{j\Omega}]")
+st.latex("Y[e^{j\Omega}] \\longrightarrow y[n]")
+
+st.markdown('<div style="margin-top: 20px;"></div>', unsafe_allow_html=True)
+
+st.write("""
+    Ready to test it out yourself?  
+""")
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.divider()
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.subheader("Try it yourself!")
+    
+st.markdown('<div style="margin-top: 200px;"></div>', unsafe_allow_html=True)
+
 
 st.image("images/icon.png", use_container_width="always")
 

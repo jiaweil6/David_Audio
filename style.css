@@ -30,6 +30,12 @@ h2 {
     font-size: 32px !important;
 }
 
+h3 {
+    font-family: 'Plaster' !important;
+    color: #F8F8FF !important;
+    text-align: left !important;
+}
+
 u {
     text-decoration-line: underline;
     text-decoration-color: #66FCF1 !important;
