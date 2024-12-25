@@ -181,6 +181,17 @@ if audio_value is not None:
     # 1. Retrieve raw bytes (WebM/Opus)
     webm_data = audio_value.getvalue()
 
+    # 2. Convert with pydub (WebM/Opus -> AudioSegment)
+    audio_segment = AudioSegment.from_file(io.BytesIO(webm_data), format="webm")
+
+    # 3. Export AudioSegment to WAV in memory
+    wav_io = io.BytesIO()
+    audio_segment.export(wav_io, format="wav")
+
+    # 4. Use the WAV bytes
+    wav_bytes = wav_io.getvalue()
+    st.write("Here are the first 100 bytes of your WAV data:", wav_bytes[:100])
+
 
 
 
