@@ -3,6 +3,7 @@ from sidebar import sidebar
 from streamlit_react_flow import react_flow
 import numpy as np
 from pydub import AudioSegment
+import io
 
 sidebar()
 main_body_logo = "images/icon.png"
