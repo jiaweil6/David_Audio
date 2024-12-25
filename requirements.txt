@@ -2,3 +2,4 @@ streamlit
 streamlit_react_flow
 numpy
 pydub
+io
