@@ -2,8 +2,10 @@ import streamlit as st
 from sidebar import sidebar
 from streamlit_react_flow import react_flow
 import numpy as np
-from pydub import AudioSegment
+import pandas as pd
+import altair as alt
 import io
+import soundfile as sf
 
 sidebar()
 main_body_logo = "images/icon.png"
@@ -174,28 +176,147 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.subheader("Try it yourself!")
 
-audio_value = st.audio_input("Record your voice here.")
+# ------------------
+# AUDIO INPUT
+# ------------------
+# (Assumes a custom widget that returns an UploadedFile-like object.)
+audio_value = st.audio_input("Record your beautiful voice here.")
 
-if audio_value is not None:
-    st.write("Converting your recorded audio to WAV in memory...")
+# We'll assume both audio inputs and IR are at 44100 Hz
+sample_rate = 44100
 
-    # 1. Retrieve raw bytes (WebM/Opus)
-    webm_data = audio_value.getvalue()
+# ------------------
+# READ IMPULSE RESPONSE
+# ------------------
+IR_file = "audio/reverb.wav"
+IR_data, ir_sample_rate = sf.read(IR_file)
 
-    # 2. Convert with pydub (WebM/Opus -> AudioSegment)
-    audio_segment = AudioSegment.from_file(io.BytesIO(webm_data), format="webm")
+# If IR is stereo, just grab the left channel, or handle as you wish
+if IR_data.ndim == 2:
+    IR_data = IR_data[:, 0]
 
-    # 3. Export AudioSegment to WAV in memory
-    wav_io = io.BytesIO()
-    audio_segment.export(wav_io, format="wav")
+# (Optional) If IR is at a different sample rate, consider resampling or
+# at least acknowledging the difference. For simplicity, assume they're the same.
+# For correctness:
+#   if ir_sample_rate != sample_rate:
+#       IR_data = librosa.resample(IR_data, orig_sr=ir_sample_rate, target_sr=sample_rate)
 
-    # 4. Use the WAV bytes
-    wav_bytes = wav_io.getvalue()
-    st.write("Here are the first 100 bytes of your WAV data:", wav_bytes[:100])
+# ------------------
+# FREQUENCY ANALYSIS OF IR
+# ------------------
+# Take the FFT of the IR
+IR_frequency_domain = np.fft.fft(IR_data)
+IR_frequency_bins = np.fft.fftfreq(len(IR_data), d=1.0 / sample_rate)
+IR_amplitude_spectrum = np.abs(IR_frequency_domain)
+
+# Keep only 20 Hz to 20 kHz
+mask = (IR_frequency_bins >= 20) & (IR_frequency_bins <= 20000)
+IR_freqs = IR_frequency_bins[mask]
+IR_amps = IR_amplitude_spectrum[mask]
+
+# Create a DataFrame for Altair
+IR_df = pd.DataFrame({"Frequency": IR_freqs, "Amplitude": IR_amps})
+
+# Build an Altair line chart for the IR
+IR_chart = (
+    alt.Chart(IR_df)
+    .mark_line(color="#66FCF1")
+    .encode(
+        x=alt.X(
+            "Frequency",
+            scale=alt.Scale(
+                type="log",      # Logarithmic scale
+                domain=[20, 20000]
+            )
+        ),
+        y="Amplitude"
+    )
+)
+
+# ------------------
+# IF USER SUBMITS AUDIO
+# ------------------
+if audio_value:
+    # Read bytes from the uploaded file
+    audio_bytes = audio_value.read()
+
+    # Convert to NumPy array (16-bit PCM is typical)
+    # Adjust dtype if your capture widget returns 32-bit or other format
+    audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
+
+    # ------------------
+    # FREQUENCY ANALYSIS OF USER AUDIO
+    # ------------------
+    frequency_domain = np.fft.fft(audio_data)
+    frequency_bins = np.fft.fftfreq(len(audio_data), d=1.0 / sample_rate)
+    amplitude_spectrum = np.abs(frequency_domain)
+
+    # Filter 20 Hz to 20 kHz
+    mask = (frequency_bins >= 20) & (frequency_bins <= 20000)
+    freqs = frequency_bins[mask]
+    amps = amplitude_spectrum[mask]
+
+    # Create DataFrame for Altair
+    df = pd.DataFrame({"Frequency": freqs, "Amplitude": amps})
+
+    # Build Altair chart
+    chart = (
+        alt.Chart(df)
+        .mark_line(color="#66FCF1")
+        .encode(
+            x=alt.X(
+                "Frequency",
+                scale=alt.Scale(
+                    type="log",
+                    domain=[20, 20000]
+                )
+            ),
+            y="Amplitude"
+        )
+    )
+
+    # Show user audio spectrum
+    st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+    st.write("Your beautiful voice in frequency domain.")
+    st.altair_chart(chart, use_container_width=True)
+
+    # Show IR spectrum
+    st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+    st.write("This is the impulse response of a concert hall in frequency domain.")
+    st.altair_chart(IR_chart, use_container_width=True)
+
+    # ------------------
+    # LINEAR CONVOLUTION IN FREQUENCY DOMAIN
+    # ------------------
+    # For full linear convolution, length = len(audio) + len(ir) - 1
+    N = len(audio_data) + len(IR_data) - 1
+
+    # FFT both signals with the same size N
+    audio_fft = np.fft.fft(audio_data, n=N)
+    IR_fft = np.fft.fft(IR_data, n=N)
+
+    # Multiply in frequency domain => convolve in time domain
+    convolved_spectrum = audio_fft * IR_fft
+    convolved = np.fft.ifft(convolved_spectrum)
+
+    # Take the real part, convert to float32 (or int16)
+    convolved_real = np.real(convolved).astype(np.float32)
+    max_val = np.max(np.abs(convolved_real))
+    if max_val > 0:
+        convolved_real = convolved_real / max_val  # Normalize to [-1, 1]
+        convolved_real = (convolved_real * 32767).astype(np.int16)  # Convert to 16-bit
 
 
+    # ------------------
+    # WRITE TO AN IN-MEMORY WAV FILE
+    # ------------------
+    buffer = io.BytesIO()
+    sf.write(buffer, convolved_real, sample_rate, format='WAV')
+    buffer.seek(0)
 
-
+    st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+    st.write("Here's your voice convolved with the impulse response:")
+    st.audio(buffer, format="audio/wav")
 
 st.markdown('<div style="margin-top: 200px;"></div>', unsafe_allow_html=True)
 

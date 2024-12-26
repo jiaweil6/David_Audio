@@ -1,4 +1,7 @@
 streamlit
 streamlit_react_flow
 numpy
-pydub
+watchdog
+pandas
+altair
+soundfile
