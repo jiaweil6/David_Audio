@@ -175,7 +175,7 @@ st.divider()
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.subheader("Try it yourself!")
-
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 # ------------------
 # AUDIO INPUT
 # ------------------
@@ -306,6 +306,12 @@ if audio_value:
         convolved_real = convolved_real / max_val  # Normalize to [-1, 1]
         convolved_real = (convolved_real * 32767).astype(np.int16)  # Convert to 16-bit
 
+    # ------------------
+    # APPLY FADE-IN
+    # ------------------
+    fade_duration = int(sample_rate * 1)  # 2 seconds fade-in
+    fade_in = np.linspace(0, 1, fade_duration)
+    convolved_real[:fade_duration] = convolved_real[:fade_duration] * fade_in
 
     # ------------------
     # WRITE TO AN IN-MEMORY WAV FILE
