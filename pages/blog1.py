@@ -193,7 +193,17 @@ IR_chart = (
 # ------------------
 # IF USER SUBMITS AUDIO
 # ------------------
-if audio_value:
+if audio_value is not None:
+    # Reset session state variables when a new audio is uploaded
+    if "previous_audio" not in st.session_state or st.session_state["previous_audio"] != audio_value:
+        st.session_state["button1"] = False
+        st.session_state["button2"] = False
+        st.session_state["button3"] = False
+        st.session_state["previous_audio"] = audio_value
+
+    st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+    st.write("To efficiently perform convolution, we need to perform Fourier Transform on both your beautiful voice and the IR.")
+    
     # Read bytes from the uploaded file
     audio_bytes = audio_value.read()
 
@@ -232,60 +242,112 @@ if audio_value:
         )
     )
 
-    # Show user audio spectrum
-    st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
-    st.write("Your beautiful voice in frequency domain.")
-    st.altair_chart(chart, use_container_width=True)
+    if st.button("Perform Fourier Transform", use_container_width=True):
+        st.session_state["button1"] = not st.session_state["button1"]
+        
+    if st.session_state["button1"]:
 
-    # Show IR spectrum
-    st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
-    st.write("This is the impulse response of a concert hall in frequency domain.")
-    st.altair_chart(IR_chart, use_container_width=True)
-
-    st.write("Remember the step above? You multiply two signals in frequency domain!")
-    st.latex("Y[e^{j\Omega}] = X[e^{j\Omega}] \cdot H[e^{j\Omega}]")
-    st.write("And apply the Inverse Fourier Transform!")
-    st.latex("Y[e^{j\Omega}] \\longrightarrow y[n]")
-
-    if st.button("CONVOLVE!", use_container_width=True):
-        # ------------------
-        # LINEAR CONVOLUTION IN FREQUENCY DOMAIN
-        # ------------------
-        # For full linear convolution, length = len(audio) + len(ir) - 1
-        N = len(audio_data) + len(IR_data) - 1
-
-        # FFT both signals with the same size N
-        audio_fft = np.fft.fft(audio_data, n=N)
-        IR_fft = np.fft.fft(IR_data, n=N)
-
-        # Multiply in frequency domain => convolve in time domain
-        convolved_spectrum = audio_fft * IR_fft
-        convolved = np.fft.ifft(convolved_spectrum)
-
-        # Take the real part, convert to float32 (or int16)
-        convolved_real = np.real(convolved).astype(np.float32)
-        max_val = np.max(np.abs(convolved_real))
-        if max_val > 0:
-            convolved_real = convolved_real / max_val  # Normalize to [-1, 1]
-            convolved_real = (convolved_real * 32767).astype(np.int16)  # Convert to 16-bit
-
-        # ------------------
-        # APPLY FADE-IN
-        # ------------------
-        fade_duration = int(sample_rate * 1)  # 2 seconds fade-in
-        fade_in = np.linspace(0, 1, fade_duration)
-        convolved_real[:fade_duration] = convolved_real[:fade_duration] * fade_in
-
-        # ------------------
-        # WRITE TO AN IN-MEMORY WAV FILE
-        # ------------------
-        buffer = io.BytesIO()
-        sf.write(buffer, convolved_real, sample_rate, format='WAV')
-        buffer.seek(0)
+        # Show user audio spectrum
+        st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+        st.write("This is your beautiful voice in frequency domain.")
+        st.altair_chart(chart, use_container_width=True)
 
         st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
-        st.write("Here's your voice convolved with the impulse response:")
-        st.audio(buffer, format="audio/wav")
+        st.write("I have choosen a concert hall reverb for you. Let's see what it looks like in frequency domain.")
+
+        if st.button("Show Impulse Response in Frequency Domain", use_container_width=True):
+            st.session_state["button2"] = not st.session_state["button2"]
+
+        if st.session_state["button1"] and st.session_state["button2"]:
+
+            # Show IR spectrum
+            st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+            st.write("This is the impulse response of a concert hall in frequency domain.")
+            st.altair_chart(IR_chart, use_container_width=True)
+
+            st.write("Remember the step above? You multiply two signals in frequency domain!")
+            st.latex("Y[e^{j\Omega}] = X[e^{j\Omega}] \cdot H[e^{j\Omega}]")
+
+            if st.button("Multiply the two signals in frequency domain", use_container_width=True):
+                st.session_state["button3"] = not st.session_state["button3"]
+
+            if st.session_state["button1"] and st.session_state["button2"] and st.session_state["button3"]:
+                # ------------------
+                # LINEAR CONVOLUTION IN FREQUENCY DOMAIN
+                # ------------------
+                # For full linear convolution, length = len(audio) + len(ir) - 1
+                N = len(audio_data) + len(IR_data) - 1
+
+                # FFT both signals with the same size N
+                audio_fft = np.fft.fft(audio_data, n=N)
+                IR_fft = np.fft.fft(IR_data, n=N)
+
+                # Multiply in frequency domain => convolve in time domain
+                convolved_spectrum = audio_fft * IR_fft
+
+                # Frequency analysis of the convolved signal
+                convolved_amplitude_spectrum = np.abs(convolved_spectrum)
+                convolved_frequency_bins = np.fft.fftfreq(N, d=1.0 / sample_rate)
+
+                # Filter 20 Hz to 20 kHz
+                convolved_mask = (convolved_frequency_bins >= 20) & (convolved_frequency_bins <= 20000)
+                convolved_freqs = convolved_frequency_bins[convolved_mask]
+                convolved_amps = convolved_amplitude_spectrum[convolved_mask]
+
+                # Create DataFrame for Altair
+                convolved_df = pd.DataFrame({"Frequency": convolved_freqs, "Amplitude": convolved_amps})
+
+                # Build Altair chart for the convolved signal
+                convolved_chart = (
+                    alt.Chart(convolved_df)
+                    .mark_line(color="#66FCF1")
+                    .encode(
+                        x=alt.X(
+                            "Frequency",
+                            scale=alt.Scale(
+                                type="log",
+                                domain=[20, 20000]
+                            )
+                        ),
+                        y="Amplitude"
+                    )
+                )
+
+                st.altair_chart(convolved_chart, use_container_width=True)
+
+                st.write("And apply the Inverse Fourier Transform!")
+                st.latex("Y[e^{j\Omega}] \\longrightarrow y[n]")
+
+                if st.button("CONVOLVE!", use_container_width=True):
+                    convolved = np.fft.ifft(convolved_spectrum)
+
+                    # Take the real part, convert to float32 (or int16)
+                    convolved_real = np.real(convolved).astype(np.float32)
+                    max_val = np.max(np.abs(convolved_real))
+                    if max_val > 0:
+                        convolved_real = convolved_real / max_val  # Normalize to [-1, 1]
+                        convolved_real = (convolved_real * 32767).astype(np.int16)  # Convert to 16-bit
+
+                    # ------------------
+                    # APPLY FADE-IN
+                    # ------------------
+                    fade_duration = int(sample_rate * 1)  # 2 seconds fade-in
+                    fade_in = np.linspace(0, 1, fade_duration)
+                    convolved_real[:fade_duration] = convolved_real[:fade_duration] * fade_in
+
+                    # ------------------
+                    # WRITE TO AN IN-MEMORY WAV FILE
+                    # ------------------
+                    buffer = io.BytesIO()
+                    sf.write(buffer, convolved_real, sample_rate, format='WAV')
+                    buffer.seek(0)
+
+                    st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+                    st.write("Here's your voice convolved with the impulse response:")
+                    st.audio(buffer, format="audio/wav")
+
+
+
 
 st.markdown('<div style="margin-top: 200px;"></div>', unsafe_allow_html=True)
 
