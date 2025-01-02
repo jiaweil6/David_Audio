@@ -10,10 +10,6 @@ header {
 footer {visibility: hidden;}
 div.embeddedAppMetaInfoBar_container__DxxL1 {visibility: hidden;}
 
-body {
-    background-color: #0B0C10 !important;
-}
-
 .nav-button:hover {
     color: #66FCF1 !important;
     text-decoration: none !important;
