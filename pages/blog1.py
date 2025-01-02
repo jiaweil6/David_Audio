@@ -193,7 +193,7 @@ IR_chart = (
 # ------------------
 # IF USER SUBMITS AUDIO
 # ------------------
-if audio_value is not None:
+if audio_value:
     # Reset session state variables when a new audio is uploaded
     if "previous_audio" not in st.session_state or st.session_state["previous_audio"] != audio_value:
         st.session_state["button1"] = False
