@@ -47,50 +47,7 @@ Don’t leave yet, I know you are probably clueless on what the heck this funky 
 Think of signal $x$ as the input signal, or the dry signal. And think of signal $h$ as a mystery box, or effect that allows signals to go through. 
 """)
 
-elements = [
-    {
-        "id": '1',
-        "data": {"label": 'dry signal'},
-        "type": "input",
-        "position": {"x": 80, "y": 50},
-        "sourcePosition": 'right',
-    },
-    {
-        "id": '2',
-        "data": {"label": 'effect'},
-        "position": {"x": 280, "y": 50},
-        "sourcePosition": 'right',
-        "targetPosition": 'left',
-        "style": {"background": "#66FCF1", "borderRadius": 40, "alignSelf": "center"}
-    },
-    {
-        "id": '3',
-        "data": {"label": "output"},
-        "position": {"x": 480, "y": 50},
-        "targetPosition": 'left',
-        "sourcePosition": 'left',
-    },
-    {
-        "id": 'e1-2',
-        "source": '1',
-        "target": '2',
-        "animated": True
-    },
-    {
-        "id": 'e2-3',
-        "source": '2',
-        "target": '3',
-        "animated": True
-    },
-]
-
-
-flowStyles = { "height": 90,"width":700 }
-react_flow(
-    "Convolution",
-    elements=elements,
-    flow_styles=flowStyles
-)
+st.image("images/flow-chart.png", use_container_width="always")
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
@@ -143,7 +100,7 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 st.write("""
     Don't calculate your $y[n]$ just yet, imagine your $N$ is a billion where you have a super long signal. This summation would take forever! How can this be done in real-time?
     We the engineers got the trick to work around it. All signals have two domains, the time domain and the frequency domain.
-    Convolution in time domain is actualy multiplication in the frequency domain! 
+    Convolution in time domain is actualy multiplication in the frequency domain! Much simpler now, but how do we find the signal in it's frequency domain?
 """)
 
 st.latex("x[n] \\ast h[n] \longleftrightarrow X[e^{j\Omega}] \cdot H[e^{j\Omega}]")
@@ -151,7 +108,7 @@ st.latex("x[n] \\ast h[n] \longleftrightarrow X[e^{j\Omega}] \cdot H[e^{j\Omega}
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.write("""
-    How do we find the signal in frequency domain? This is rather technical but very very efficient.
+    This is rather technical but very very efficient.
     Fourier Transform, more specifically FFT (Fast Fourier Transform).
     Not going to scary you with big equations yet, it basically convert signal from it's time domain to it's frequency domain. 
     Vice versa, after multiplying two signals in the frequency domain, we perform the Inverse Fourier Fransform to get our time domain signal back which we could play it through a loud speaker.
@@ -285,44 +242,50 @@ if audio_value:
     st.write("This is the impulse response of a concert hall in frequency domain.")
     st.altair_chart(IR_chart, use_container_width=True)
 
-    # ------------------
-    # LINEAR CONVOLUTION IN FREQUENCY DOMAIN
-    # ------------------
-    # For full linear convolution, length = len(audio) + len(ir) - 1
-    N = len(audio_data) + len(IR_data) - 1
+    st.write("Remember the step above? You multiply two signals in frequency domain!")
+    st.latex("Y[e^{j\Omega}] = X[e^{j\Omega}] \cdot H[e^{j\Omega}]")
+    st.write("And apply the Inverse Fourier Transform!")
+    st.latex("Y[e^{j\Omega}] \\longrightarrow y[n]")
 
-    # FFT both signals with the same size N
-    audio_fft = np.fft.fft(audio_data, n=N)
-    IR_fft = np.fft.fft(IR_data, n=N)
+    if st.button("CONVOLVE!", use_container_width=True):
+        # ------------------
+        # LINEAR CONVOLUTION IN FREQUENCY DOMAIN
+        # ------------------
+        # For full linear convolution, length = len(audio) + len(ir) - 1
+        N = len(audio_data) + len(IR_data) - 1
 
-    # Multiply in frequency domain => convolve in time domain
-    convolved_spectrum = audio_fft * IR_fft
-    convolved = np.fft.ifft(convolved_spectrum)
+        # FFT both signals with the same size N
+        audio_fft = np.fft.fft(audio_data, n=N)
+        IR_fft = np.fft.fft(IR_data, n=N)
 
-    # Take the real part, convert to float32 (or int16)
-    convolved_real = np.real(convolved).astype(np.float32)
-    max_val = np.max(np.abs(convolved_real))
-    if max_val > 0:
-        convolved_real = convolved_real / max_val  # Normalize to [-1, 1]
-        convolved_real = (convolved_real * 32767).astype(np.int16)  # Convert to 16-bit
+        # Multiply in frequency domain => convolve in time domain
+        convolved_spectrum = audio_fft * IR_fft
+        convolved = np.fft.ifft(convolved_spectrum)
 
-    # ------------------
-    # APPLY FADE-IN
-    # ------------------
-    fade_duration = int(sample_rate * 1)  # 2 seconds fade-in
-    fade_in = np.linspace(0, 1, fade_duration)
-    convolved_real[:fade_duration] = convolved_real[:fade_duration] * fade_in
+        # Take the real part, convert to float32 (or int16)
+        convolved_real = np.real(convolved).astype(np.float32)
+        max_val = np.max(np.abs(convolved_real))
+        if max_val > 0:
+            convolved_real = convolved_real / max_val  # Normalize to [-1, 1]
+            convolved_real = (convolved_real * 32767).astype(np.int16)  # Convert to 16-bit
 
-    # ------------------
-    # WRITE TO AN IN-MEMORY WAV FILE
-    # ------------------
-    buffer = io.BytesIO()
-    sf.write(buffer, convolved_real, sample_rate, format='WAV')
-    buffer.seek(0)
+        # ------------------
+        # APPLY FADE-IN
+        # ------------------
+        fade_duration = int(sample_rate * 1)  # 2 seconds fade-in
+        fade_in = np.linspace(0, 1, fade_duration)
+        convolved_real[:fade_duration] = convolved_real[:fade_duration] * fade_in
 
-    st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
-    st.write("Here's your voice convolved with the impulse response:")
-    st.audio(buffer, format="audio/wav")
+        # ------------------
+        # WRITE TO AN IN-MEMORY WAV FILE
+        # ------------------
+        buffer = io.BytesIO()
+        sf.write(buffer, convolved_real, sample_rate, format='WAV')
+        buffer.seek(0)
+
+        st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+        st.write("Here's your voice convolved with the impulse response:")
+        st.audio(buffer, format="audio/wav")
 
 st.markdown('<div style="margin-top: 200px;"></div>', unsafe_allow_html=True)
 
