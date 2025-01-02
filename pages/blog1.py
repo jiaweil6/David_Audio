@@ -7,6 +7,32 @@ import altair as alt
 import io
 import soundfile as sf
 
+def normalize_gain(signal, target_peak=0.9):
+    """
+    Normalize the gain of an audio signal to a target peak level.
+
+    Parameters:
+    - signal: np.ndarray, the input audio signal.
+    - target_peak: float, the target peak level (default is 0.9).
+
+    Returns:
+    - normalized_signal: np.ndarray, the gain-normalized audio signal.
+    """
+    # Find the current peak of the signal
+    current_peak = np.max(np.abs(signal))
+    
+    # Avoid division by zero
+    if current_peak == 0:
+        return signal
+    
+    # Calculate the normalization factor
+    normalization_factor = target_peak / current_peak
+    
+    # Apply the normalization factor to the signal
+    normalized_signal = signal * normalization_factor
+    
+    return normalized_signal
+
 sidebar()
 main_body_logo = "images/icon.png"
 st.logo(main_body_logo)
@@ -16,7 +42,7 @@ with open( "style.css" ) as css:
 # Add some padding to prevent content from being hidden behind the navbar
 st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
 
-st.markdown("<h2>What is <u>Convolution</u>? <br> What does it mean in audio?</h2>", unsafe_allow_html=True)
+st.markdown("<h2 class='title';'>Algorithm Behind Realistic Reverb? <br> What is <u>Convolution</u>?</h2>", unsafe_allow_html=True)
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
@@ -78,7 +104,7 @@ st.write("""
     To obtain the output signal of the dry signal with the concert hall reverb, we will perform the convolution of the dry signal and the impulse response.
 """)
 
-st.latex("y(t) = (x \\ast h)(t)")
+st.latex("y(t) = x(t) \\ast h(t)")
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
@@ -90,7 +116,7 @@ st.subheader("Practical Scenarios")
 
 st.write("""
     In the digital world, we can't perform the convolution directly on the continuous signal due to the limited computer processing power.
-    We will discretize the signal into samples and perform discrete convolution. Now the funky integral becomes a sum in discrete domain.
+    We will discretize the signal into samples and perform discrete convolution. Now the funky integral becomes a sum in discrete domain. Still ugly looking.
 """)
 
 st.latex("y[n] = \\sum_{k=0}^{N-1} x[k] h[n-k]")
@@ -100,24 +126,34 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 st.write("""
     Don't calculate your $y[n]$ just yet, imagine your $N$ is a billion where you have a super long signal. This summation would take forever! How can this be done in real-time?
     We the engineers got the trick to work around it. All signals have two domains, the time domain and the frequency domain.
-    Convolution in time domain is actualy multiplication in the frequency domain! Much simpler now, but how do we find the signal in it's frequency domain?
-""")
+ """)   
 
-st.latex("x[n] \\ast h[n] \longleftrightarrow X[e^{j\Omega}] \cdot H[e^{j\Omega}]")
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.image("images/domain.jpeg", caption="Time Domain vs. Frequency Domain image from Keysight", use_container_width="always")
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.write("""
-    This is rather technical but very very efficient.
-    Fourier Transform, more specifically FFT (Fast Fourier Transform).
-    Not going to scary you with big equations yet, it basically convert signal from it's time domain to it's frequency domain. 
-    Vice versa, after multiplying two signals in the frequency domain, we perform the Inverse Fourier Fransform to get our time domain signal back which we could play it through a loud speaker.
+    Convolution in time domain is actualy multiplication in the frequency domain! Much simpler now, but how do we find the signal in it's frequency domain?
 """)
 
-st.latex("x[n] \\longrightarrow X[e^{j\Omega}]")
-st.latex("h[n] \\longrightarrow H[e^{j\Omega}]")
-st.latex("Y[e^{j\Omega}] = X[e^{j\Omega}] \cdot H[e^{j\Omega}]")
-st.latex("Y[e^{j\Omega}] \\longrightarrow y[n]")
+st.latex("x[n] \\ast h[n] \longleftrightarrow X[f] \cdot H[f]")
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.markdown("""<p>
+    This is rather technical but very very efficient.
+    <a href="https://www.jezzamon.com/fourier/" class="author">Fourier Transform</a>, more specifically FFT (Fast Fourier Transform).
+    Not going to scary you with big equations here but if you are interested, you can read more about it from this fantastic demo by Jez Swanson in the link above.
+    It essentially convert signal from it's time domain to it's frequency domain. 
+    Vice versa, after multiplying two signals in the frequency domain, we perform the Inverse Fourier Fransform to get our time domain signal back which we could play it through a loud speaker.
+</p>""", unsafe_allow_html=True)
+
+st.latex("x[n] \\longrightarrow X[f]")
+st.latex("h[n] \\longrightarrow H[f]")
+st.latex("Y[f] = X[f] \cdot H[f]")
+st.latex("Y[f] \\longrightarrow y[n]")
 
 st.markdown('<div style="margin-top: 20px;"></div>', unsafe_allow_html=True)
 
@@ -202,6 +238,7 @@ if audio_value:
         st.session_state["button1"] = False
         st.session_state["button2"] = False
         st.session_state["button3"] = False
+        st.session_state["button4"] = False
         st.session_state["previous_audio"] = audio_value
 
     st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
@@ -225,6 +262,7 @@ if audio_value:
     mask = (frequency_bins >= 20) & (frequency_bins <= 20000)
     freqs = frequency_bins[mask]
     amps = amplitude_spectrum[mask]
+    amps /= np.max(amps)
 
     # Create DataFrame for Altair
     df = pd.DataFrame({"Frequency": freqs, "Amplitude": amps})
@@ -299,14 +337,15 @@ if audio_value:
                 convolved_mask = (convolved_frequency_bins >= 20) & (convolved_frequency_bins <= 20000)
                 convolved_freqs = convolved_frequency_bins[convolved_mask]
                 convolved_amps = convolved_amplitude_spectrum[convolved_mask]
-
+                convolved_amps /= np.max(convolved_amps)
+                
                 # Create DataFrame for Altair
                 convolved_df = pd.DataFrame({"Frequency": convolved_freqs, "Amplitude": convolved_amps})
 
                 # Build Altair chart for the convolved signal
                 convolved_chart = (
                     alt.Chart(convolved_df)
-                    .mark_line(color="#66FCF1")
+                    .mark_line(color="#FF5733")
                     .encode(
                         x=alt.X(
                             "Frequency",
@@ -322,12 +361,18 @@ if audio_value:
                     )
                 )
 
-                st.altair_chart(convolved_chart, use_container_width=True)
+                # Overlay the convolved chart on top of the original chart
+                combined_chart = chart + convolved_chart
+
+                st.altair_chart(combined_chart, use_container_width=True)
 
                 st.write("And apply the Inverse Fourier Transform!")
                 st.latex("Y[e^{j\Omega}] \\longrightarrow y[n]")
 
                 if st.button("CONVOLVE!", use_container_width=True):
+                    st.session_state["button4"] = not st.session_state["button4"]
+
+                if st.session_state["button1"] and st.session_state["button2"] and st.session_state["button3"] and st.session_state["button4"]:
                     convolved = np.fft.ifft(convolved_spectrum)
 
                     # Take the real part, convert to float32 (or int16)
@@ -355,6 +400,24 @@ if audio_value:
                     st.write("Here's your voice convolved with the impulse response:")
                     st.audio(buffer, format="audio/wav")
 
+                    st.write("This is the fully wet signal, you might not need this much reverb. Select the amount of reverb you want to apply.")
+                    reverb_amount = st.slider("0 for fully dry, 100 for fully wet", min_value=0, max_value=100, value=50, step=5)
+
+                    # Ensure both audio_data and convolved_real have the same length by padding the shorter one
+                    max_length = max(len(audio_data), len(convolved_real))
+
+                    # Pad audio_data with zeros if it's shorter
+                    if len(audio_data) < max_length:
+                        audio_data = np.pad(audio_data, (0, max_length - len(audio_data)), 'constant')
+
+                    # Pad convolved_real with zeros if it's shorter
+                    if len(convolved_real) < max_length:
+                        convolved_real = np.pad(convolved_real, (0, max_length - len(convolved_real)), 'constant')
+
+                    # Calculate the final signal with the specified reverb amount
+                    final_signal = normalize_gain((1 - reverb_amount / 100) * audio_data + (reverb_amount / 100) * convolved_real)
+
+                    st.audio(final_signal, format="audio/wav", sample_rate=sample_rate)
 
 
 
