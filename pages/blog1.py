@@ -186,7 +186,10 @@ IR_chart = (
                 domain=[20, 20000]
             )
         ),
-        y="Amplitude"
+        y=alt.Y(
+            "Amplitude",
+            axis=alt.Axis(labels=False, ticks=False)  # Hide labels and ticks
+        )
     )
 )
 
@@ -238,7 +241,10 @@ if audio_value:
                     domain=[20, 20000]
                 )
             ),
-            y="Amplitude"
+            y=alt.Y(
+                "Amplitude",
+                axis=alt.Axis(labels=False, ticks=False)  # Hide labels and ticks
+            )
         )
     )
 
@@ -309,7 +315,10 @@ if audio_value:
                                 domain=[20, 20000]
                             )
                         ),
-                        y="Amplitude"
+                        y=alt.Y(
+                            "Amplitude",
+                            axis=alt.Axis(labels=False, ticks=False)  # Hide labels and ticks
+                        )
                     )
                 )
 
