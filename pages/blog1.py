@@ -147,11 +147,16 @@ st.markdown("""<p>
     <a href="https://www.jezzamon.com/fourier/" class="author">Fourier Transform</a>, more specifically FFT (Fast Fourier Transform).
     Not going to scary you with big equations here but if you are interested, you can read more about it from this fantastic demo by Jez Swanson in the link above.
     It essentially convert signal from it's time domain to it's frequency domain. 
-    Vice versa, after multiplying two signals in the frequency domain, we perform the Inverse Fourier Fransform to get our time domain signal back which we could play it through a loud speaker.
 </p>""", unsafe_allow_html=True)
 
 st.latex("x[n] \\longrightarrow X[f]")
 st.latex("h[n] \\longrightarrow H[f]")
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+
+st.write("Vice versa, after multiplying two signals in the frequency domain, we perform the Inverse Fourier Fransform to get our time domain signal back which we could play it through a loud speaker.")
+
 st.latex("Y[f] = X[f] \cdot H[f]")
 st.latex("Y[f] \\longrightarrow y[n]")
 
@@ -338,7 +343,7 @@ if audio_value:
                 convolved_freqs = convolved_frequency_bins[convolved_mask]
                 convolved_amps = convolved_amplitude_spectrum[convolved_mask]
                 convolved_amps /= np.max(convolved_amps)
-                
+
                 # Create DataFrame for Altair
                 convolved_df = pd.DataFrame({"Frequency": convolved_freqs, "Amplitude": convolved_amps})
 
