@@ -67,25 +67,27 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 st.subheader("Introduction")
 
 st.write("""
-Ever wonder how your computer magically transports your voice into a grand concert hall? 
+Ever wonder how your computer magically transports your voice into a grand concert hall? 🪄
 Is it just stretching out the tail end of your vocals to create that luscious reverb? 
-Or how your amp simulator seems to capture the exact sound of that ridiculously expensive amp you’ve been eyeing? 
-The secret behind the scenes is something called convolution—and it’s a total game-changer.
+Or how your amp simulator seems to capture the exact sound of that ridiculously expensive amp you’ve been eyeing? 🤑
+The secret behind the scenes is something called convolution—and it’s a total game-changer. 🔥
 """)
 
-st.write("""
-Convolution is a special mathematical operation that combines two signals to produce a third signal. 
+st.markdown("""
+<p><u>Convolution</u> is a special mathematical operation that combines two signals to produce a third signal. 
 You’ve probably heard the term thrown around in convolution reverb or IR (impulse response) simulation. 
-No one wants to slog through the entire Wikipedia page just to end up more confused, right?
+No one wants to slog through the entire Wikipedia page just to end up more confused, right? 😅</p>
+""", unsafe_allow_html=True)
 
+st.write("""
 Convolution of two signal $x$ and $h$ is written $x \\ast h$ where:
 """)
 
 st.latex(r"(x \ast h)(t) = \int_{-\infty}^{\infty} x(\tau) h(t - \tau) d\tau")
 
 st.write("""
-Don’t bail on me just yet—I know you’re probably scratching your head over that funky-looking integral. Trust me, I was just as confused the first time I saw it!
-Think of $x$ as your input (or “dry”) signal and $h$ as a mystery box or effect that the signal passes through. That’s all there is to it for now—no need to freak out!
+Don’t bail on me just yet—I know you’re probably scratching your head over that funky-looking integral. 🤮 Trust me, I was just as confused the first time I saw it!
+Think of $x$ as your input (or “dry”) signal and $h$ as a mystery box or effect that the signal passes through. That’s all there is to it for now—no need to freak out! 👍
 """)
 
 st.image("images/flow-chart.png", use_container_width="always")
@@ -110,14 +112,14 @@ st.latex("(x \\ast h) (t) = y(t) = h(t)")
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.write("""
-    Imagine an impulse signal as a single spike of sound—maybe a single drum hit or a balloon pop, which is about as close as you can get to a Dirac delta function in real life.
+    Imagine an impulse signal as a single spike of sound—maybe a single drum hit 🥁 or a balloon pop 🎈, which is about as close as you can get to a Dirac delta function in real life.
     Now picture playing that spike in a concert hall: the sound bounces off the walls and ceiling, so that short spike—plus the concert hall’s reverberation—becomes the impulse response. 
     While this isn’t exactly how you’d measure an impulse response in real life, it’s still a great way to wrap your head around the math behind it.
 """)
 
 st.write("""
     Now that we’ve captured the impulse response (or the “effect”), we can apply it to our dry signal.
-    To get that epic concert hall reverb in our final output, we simply convolve the dry signal with the impulse response. And voilà—instant big-stage vibes!
+    To get that epic concert hall reverb in our final output, we simply convolve the dry signal with the impulse response. And voilà—instant big-stage vibes! 😌
 """)
 
 st.latex("y(t) = x(t) \\ast h(t)")
@@ -131,7 +133,7 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 st.subheader("Practical Scenarios")
 
 st.write("""
-    In the digital world, we can’t directly convolve continuous signals—our computers have only so much horsepower! 
+    In the digital world 💻, we can’t directly convolve continuous signals—our computers have only so much horsepower! 
     Instead, we break (discretize) the signal into samples and perform a discrete convolution. 
     That funky integral you saw earlier transforms into a summation in the discrete domain.
 """)
@@ -143,7 +145,7 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 st.write("""
     Don't calculate your $y[n]$ just yet, imagine your $N$ is a billion and you have a super long signal. 
     That summation would take forever! How can this be done in real-time?
-    We engineers have a trick to work around this. All signals have two domains: the time domain and the frequency domain.
+    We engineers have a trick to work around this 😉. All signals have two domains: the time domain and the frequency domain.
 """)   
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
@@ -152,9 +154,9 @@ st.image("images/domain.jpeg", caption="Time Domain vs. Frequency Domain image f
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
-st.write("""
-    Convolution in the time domain is actually multiplication in the frequency domain! Much simpler now, but how do we find the signal in its frequency domain?
-""")
+st.markdown("""
+    <p>Convolution in the time domain is actually multiplication in the frequency domain! 🤯 Much simpler now, but how do we find the signal in its frequency domain?</p>
+""", unsafe_allow_html=True)
 
 st.latex("x[n] \\ast h[n] \longleftrightarrow X[f] \cdot H[f]")
 
@@ -163,7 +165,7 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 st.markdown("""<p>
     This is rather technical but very, very efficient.
     <a href="https://www.jezzamon.com/fourier/" class="author">Fourier Transform</a>, more specifically FFT (Fast Fourier Transform), is sometimes called the most important algorithm of all time.
-    I’m not going to scare you with big equations here, but if you’re interested, check out the fantastic demo by Jez Swanson in the link above.
+    I’m not going to scare you with big equations here, but if you’re interested, check out the fantastic demo by Jez Swanson in the link above. 🫡
     It essentially converts a signal from its time domain to its frequency domain. Now, instead of time/sample on the x-axis, we have frequency (in Hz) on the x-axis.
 </p>""", unsafe_allow_html=True)
 
@@ -173,10 +175,17 @@ st.latex("h[n] \\longrightarrow H[f]")
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 
-st.write("Vice versa—after multiplying two signals in the frequency domain, we perform the Inverse Fourier Transform to get our time-domain signal back, which we can then blast through a loudspeaker!")
+st.write("Vice versa—after multiplying two signals in the frequency domain, we perform the Inverse Fourier Transform to get our time-domain signal back, which we can then blast through a loudspeaker! 🔈")
 
 st.latex("Y[f] = X[f] \cdot H[f]")
 st.latex("Y[f] \\longrightarrow y[n]")
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.write("""
+In order for your DAW to process the entire convolution in real time, 
+it chops your signal into chunks and performs the same process shown above on each chunk at a speed so fast you can barely notice it.
+""")
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
@@ -190,7 +199,7 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 # AUDIO INPUT
 # ------------------
 # (Assumes a custom widget that returns an UploadedFile-like object.)
-audio_value = st.audio_input("Sing your heart out here")
+audio_value = st.audio_input("Sing your heart out here 🎤")
 
 # We'll assume both audio inputs and IR are at 44100 Hz
 sample_rate = 44100
@@ -254,7 +263,7 @@ if audio_value:
         st.session_state["previous_audio"] = audio_value
 
     st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
-    st.write("Remember how to efficiently perform convolution? We need to perform a Fourier Transform on both your beautiful voice and the IR.")
+    st.write("1️⃣ Remember how to efficiently perform convolution? We need to perform a Fourier Transform on both your beautiful voice and the IR.")
     
     # Read bytes from the uploaded file
     audio_bytes = audio_value.read()
@@ -320,7 +329,7 @@ if audio_value:
             st.write("This is the impulse response of a concert hall in the frequency domain.")
             st.altair_chart(IR_chart, use_container_width=True)
 
-            st.write("Remember from earlier? You multiply two signals in the frequency domain!")
+            st.write("2️⃣ Remember from earlier? You multiply two signals in the frequency domain!")
             st.latex("Y[f] = X[f] \cdot H[f]")
             st.markdown('<div style="margin-top: 20px;"></div>', unsafe_allow_html=True)
 
@@ -379,7 +388,7 @@ if audio_value:
                 st.markdown('<div style="margin-bottom: 80px;"></div>', unsafe_allow_html=True)
                 st.altair_chart(combined_chart, use_container_width=True)
 
-                st.markdown('''<p>Now we have both the <span style="color: #66FCF1;">dry signal</span> and the <span style="color: #FF5733;">wet signal</span> in the frequency domain. 
+                st.markdown('''<p>3️⃣ Now we have both the <span style="color: #66FCF1;">dry signal</span> and the <span style="color: #FF5733;">wet signal</span> in the frequency domain. 
                             It’s time to convert them back into the time domain (and make them playable) by performing the Inverse Fourier Transform!</p>''', unsafe_allow_html=True)
 
                 st.latex("Y[f] \\longrightarrow y[n]")
