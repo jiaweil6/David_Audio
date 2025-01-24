@@ -184,7 +184,7 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.write("""
 In order for your DAW to process the entire convolution in real time, 
-it chops your signal into chunks and performs the same process shown above on each chunk at a speed so fast you can barely notice it.
+it chops your signal into chunks and performs the same process shown above on each chunk at a speed so fast you can barely notice it. ⚡️
 """)
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
