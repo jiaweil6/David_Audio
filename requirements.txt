@@ -5,3 +5,4 @@ watchdog
 pandas
 altair
 soundfile
+librosa

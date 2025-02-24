@@ -227,6 +227,15 @@ if IR_data.ndim == 2:
     IR_data = IR_data[:, 0]
 
 # ------------------
+# UPSAMPLE (IF NEEDED) TO 44.1 kHz
+# ------------------
+if ir_sample_rate != sample_rate:
+    # Use librosa to resample from ir_sample_rate -> 44.1 kHz
+    IR_data = librosa.resample(IR_data, orig_sr=ir_sample_rate, target_sr=sample_rate)
+    # Update the IR samplerate to 44100
+    ir_sample_rate = sample_rate
+
+# ------------------
 # FREQUENCY ANALYSIS OF IR
 # ------------------
 # Take the FFT of the IR
