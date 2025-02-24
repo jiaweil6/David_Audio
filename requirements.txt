@@ -4,4 +4,4 @@ watchdog
 pandas
 altair
 soundfile
-scipy.signal
+librosa
