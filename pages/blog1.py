@@ -284,18 +284,16 @@ if audio_value:
     buffer = io.BytesIO(audio_bytes)
 
     # 3) Use soundfile to read the data and sample rate
-    audio_data, audio_sample_rate = sf.read(buffer)  # audio_data is float32 or float64
+    audio_data, audio_sample_rate = sf.read(buffer)
+    # audio_data is now a NumPy float array (float32 or float64),
+    # and audio_sample_rate is whatever was specified in the file.
 
-    # 4) Resample if needed (librosa returns float32 by default)
+    # 4) If the file sample rate != 44.1 kHz, resample using librosa
     if audio_sample_rate != sample_rate:
         audio_data = librosa.resample(audio_data, 
                                     orig_sr=audio_sample_rate, 
                                     target_sr=sample_rate)
         audio_sample_rate = sample_rate
-
-
-# 5) (Optional) If you want int16 samples:
-audio_data_int16 = (audio_data * 32767.0).astype(np.int16)
 
     # ------------------
     # FREQUENCY ANALYSIS OF USER AUDIO
