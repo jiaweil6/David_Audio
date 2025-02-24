@@ -461,19 +461,25 @@ if audio_value:
                         st.session_state["button5"] = not st.session_state["button5"]
 
                     if st.session_state["button5"]:
-                        # Ensure both audio_data and convolved_real have the same length by padding the shorter one
-                        max_length = max(len(audio_data), len(convolved_real))
+                        # 1) Ensure both signals are float32 to avoid weird type mismatches
+                        dry = audio_data.astype(np.float32)
+                        wet = convolved_real.astype(np.float32)
 
-                        # Pad audio_data with zeros if it's shorter
-                        if len(audio_data) < max_length:
-                            audio_data = np.pad(audio_data, (0, max_length - len(audio_data)), 'constant')
+                        # 2) Pad the shorter one so both have the same length (keep the full reverb tail)
+                        max_length = max(len(dry), len(wet))
+                        dry = np.pad(dry, (0, max_length - len(dry)), 'constant')
+                        wet = np.pad(wet, (0, max_length - len(wet)), 'constant')
 
-                        # Pad convolved_real with zeros if it's shorter
-                        if len(convolved_real) < max_length:
-                            convolved_real = np.pad(convolved_real, (0, max_length - len(convolved_real)), 'constant')
+                        # 3) Mix them
+                        alpha = reverb_amount / 100.0  # from 0.0 to 1.0
+                        mixed = (1.0 - alpha) * dry + alpha * wet
 
-                        # Calculate the final signal with the specified reverb amount
-                        final_signal = normalize_gain((1 - reverb_amount / 100) * audio_data + (reverb_amount / 100) * convolved_real)
+                        # 4) Normalize to prevent clipping or extremely low volume
+                        mixed_normalized = normalize_gain(mixed, target_peak=0.9)
+
+                        # 5) (Optional) Convert to 16-bit integer if you need WAV playback
+                        final_signal = (mixed_normalized * 32767).astype(np.int16)
+
                         
                         st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
                         st.audio(final_signal, format="audio/wav", sample_rate=sample_rate)
