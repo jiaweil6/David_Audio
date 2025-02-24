@@ -16,29 +16,13 @@ st.set_page_config(
 
 def normalize_gain(signal, target_peak=0.9):
     """
-    Normalize the gain of an audio signal to a target peak level.
-
-    Parameters:
-    - signal: np.ndarray, the input audio signal.
-    - target_peak: float, the target peak level (default is 0.9).
-
-    Returns:
-    - normalized_signal: np.ndarray, the gain-normalized audio signal.
+    Normalize the gain of an audio signal (float32) to a target peak level.
     """
-    # Find the current peak of the signal
     current_peak = np.max(np.abs(signal))
-    
-    # Avoid division by zero
     if current_peak == 0:
         return signal
-    
-    # Calculate the normalization factor
     normalization_factor = target_peak / current_peak
-    
-    # Apply the normalization factor to the signal
-    normalized_signal = signal * normalization_factor
-    
-    return normalized_signal
+    return signal * normalization_factor
 
 
 sidebar()
@@ -464,6 +448,10 @@ if audio_value:
                         # 1) Ensure both signals are float32 to avoid weird type mismatches
                         dry = audio_data.astype(np.float32)
                         wet = convolved_real.astype(np.float32)
+
+                        # Normalize both signals to have the same peak value
+                        dry = normalize_gain(dry, target_peak=0.9)
+                        wet = normalize_gain(wet, target_peak=0.9)
 
                         # 2) Pad the shorter one so both have the same length (keep the full reverb tail)
                         max_length = max(len(dry), len(wet))
