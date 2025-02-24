@@ -209,7 +209,7 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 # ------------------
 # AUDIO INPUT
 # ------------------
-audio_value = st.audio_input("Sing your heart out here 🎤", start_time=0, sample_rate=44100, end_time=10)
+audio_value = st.audio_input("Sing your heart out here 🎤")
 
 # We'll assume both audio inputs and IR are at 44100 Hz
 sample_rate = 44100
@@ -433,7 +433,7 @@ if audio_value:
 
                     st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
                     st.write("Here's your voice convolved with the impulse response:")
-                    st.audio(buffer, format="audio/wav")
+                    st.audio(buffer, format="audio/wav", sample_rate=sample_rate)
                     st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
                     st.write("This is the fully wet signal, but you might not need this much reverb. Pick how much of that concert hall vibe you want and dial it in!")
                     st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
