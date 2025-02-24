@@ -1,11 +1,11 @@
 import streamlit as st
 from sidebar import sidebar
-from streamlit_react_flow import react_flow
 import numpy as np
 import pandas as pd
 import altair as alt
 import io
 import soundfile as sf
+from scipy.signal import resample_poly
 
 st.set_page_config(
     page_title="Convolution",
@@ -39,6 +39,38 @@ def normalize_gain(signal, target_peak=0.9):
     normalized_signal = signal * normalization_factor
     
     return normalized_signal
+
+def upsample_to_44k(audio_data: np.ndarray, orig_sr: int) -> np.ndarray:
+    """
+    Resample audio_data from orig_sr to 44100 Hz using resample_poly.
+    """
+    target_sr = 44100
+    if orig_sr == target_sr:
+        return audio_data  # No resampling needed
+    # Use rational-factor resampling
+    # e.g., 16k -> 44.1k: up=44100, down=16000
+    return resample_poly(audio_data, up=target_sr, down=orig_sr)
+
+def read_and_resample_user_audio(raw_bytes: bytes) -> np.ndarray:
+    """
+    Read user's audio from raw_bytes, detect sample rate, 
+    and resample to 44.1 kHz. Return mono float32 samples.
+    """
+    # Wrap bytes in an in-memory file object
+    with sf.SoundFile(io.BytesIO(raw_bytes)) as f:
+        actual_sr = f.samplerate
+        audio_data = f.read(dtype='float32')  # read as float32
+    
+    # If stereo, convert to mono (take left channel here, or average if you prefer)
+    if audio_data.ndim == 2:
+        audio_data = audio_data[:, 0]
+    
+    # Resample only if needed
+    if actual_sr != 44100:
+        audio_data = upsample_to_44k(audio_data, actual_sr)
+    
+    return audio_data
+
 
 sidebar()
 main_body_logo = "images/icon.png"
@@ -206,6 +238,7 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.subheader("Ready to try it out yourself?")
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
 # ------------------
 # AUDIO INPUT
 # ------------------
@@ -280,7 +313,7 @@ if audio_value:
 
     # Convert to NumPy array (16-bit PCM is typical)
     # Adjust dtype if your capture widget returns 32-bit or other format
-    audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
+    audio_data = np.frombuffer(read_and_resample_user_audio(audio_bytes), dtype=np.int16)
 
     # ------------------
     # FREQUENCY ANALYSIS OF USER AUDIO
@@ -433,7 +466,7 @@ if audio_value:
 
                     st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
                     st.write("Here's your voice convolved with the impulse response:")
-                    st.audio(buffer, format="audio/wav", sample_rate=sample_rate)
+                    st.audio(buffer, format="audio/wav")
                     st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
                     st.write("This is the fully wet signal, but you might not need this much reverb. Pick how much of that concert hall vibe you want and dial it in!")
                     st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)

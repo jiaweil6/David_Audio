@@ -1,7 +1,7 @@
 streamlit
-streamlit_react_flow
 numpy
 watchdog
 pandas
 altair
 soundfile
+resample_poly
