@@ -4,4 +4,4 @@ watchdog
 pandas
 altair
 soundfile
-resample_poly
+scipy.signal
