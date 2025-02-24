@@ -3,7 +3,6 @@ from sidebar import sidebar
 from streamlit_react_flow import react_flow
 import numpy as np
 import pandas as pd
-import librosa
 import altair as alt
 import io
 import soundfile as sf
@@ -210,8 +209,7 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 # ------------------
 # AUDIO INPUT
 # ------------------
-# (Assumes a custom widget that returns an UploadedFile-like object.)
-audio_value = st.audio_input("Sing your heart out here 🎤")
+audio_value = st.audio_input("Sing your heart out here 🎤", start_time=0, sample_rate=44100, end_time=10)
 
 # We'll assume both audio inputs and IR are at 44100 Hz
 sample_rate = 44100
@@ -225,15 +223,6 @@ IR_data, ir_sample_rate = sf.read(IR_file)
 # If IR is stereo, just grab the left channel, or handle as you wish
 if IR_data.ndim == 2:
     IR_data = IR_data[:, 0]
-
-# ------------------
-# UPSAMPLE (IF NEEDED) TO 44.1 kHz
-# ------------------
-if ir_sample_rate != sample_rate:
-    # Use librosa to resample from ir_sample_rate -> 44.1 kHz
-    IR_data = librosa.resample(IR_data, orig_sr=ir_sample_rate, target_sr=sample_rate)
-    # Update the IR samplerate to 44100
-    ir_sample_rate = sample_rate
 
 # ------------------
 # FREQUENCY ANALYSIS OF IR
