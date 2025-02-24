@@ -3,6 +3,7 @@ from sidebar import sidebar
 from streamlit_react_flow import react_flow
 import numpy as np
 import pandas as pd
+import librosa
 import altair as alt
 import io
 import soundfile as sf
