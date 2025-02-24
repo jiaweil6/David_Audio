@@ -284,14 +284,18 @@ if audio_value:
     buffer = io.BytesIO(audio_bytes)
 
     # 3) Use soundfile to read the data and sample rate
-    audio_data, audio_sample_rate = sf.read(buffer)
+    audio_data, audio_sample_rate = sf.read(buffer)  # audio_data is float32 or float64
 
+    # 4) Resample if needed (librosa returns float32 by default)
     if audio_sample_rate != sample_rate:
-        audio_bytes = librosa.resample(audio_data, orig_sr=audio_sample_rate, target_sr=sample_rate)
+        audio_data = librosa.resample(audio_data, 
+                                    orig_sr=audio_sample_rate, 
+                                    target_sr=sample_rate)
         audio_sample_rate = sample_rate
-    # Convert to NumPy array (16-bit PCM is typical)
-    # Adjust dtype if your capture widget returns 32-bit or other format
-    audio_data = np.frombuffer(audio_data, dtype=np.int16)
+
+
+# 5) (Optional) If you want int16 samples:
+audio_data_int16 = (audio_data * 32767.0).astype(np.int16)
 
     # ------------------
     # FREQUENCY ANALYSIS OF USER AUDIO
