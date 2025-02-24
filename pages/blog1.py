@@ -277,8 +277,14 @@ if audio_value:
     st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
     st.write("1️⃣ Remember how to efficiently perform convolution? We need to perform a Fourier Transform on both your beautiful voice and the IR.")
     
-    # Read bytes from the uploaded file
-    audio_bytes, audio_sample_rate = audio_value.read()
+    # 1) Read the raw bytes from your uploaded file
+    audio_bytes = audio_value.read()
+
+    # 2) Create an in-memory buffer from those bytes
+    buffer = io.BytesIO(audio_bytes)
+
+    # 3) Use soundfile to read the data and sample rate
+    audio_data, audio_sample_rate = sf.read(buffer)
 
     if audio_sample_rate != sample_rate:
         audio_bytes = librosa.resample(audio_bytes, orig_sr=audio_sample_rate, target_sr=sample_rate)
