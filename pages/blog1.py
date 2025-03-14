@@ -148,13 +148,12 @@ st.latex("x[n] \\ast h[n] \longleftrightarrow X[f] \cdot H[f]")
 st.markdown('<div style="margin-top: 20px;"></div>', unsafe_allow_html=True)
 
 with st.expander("Interested in the mathematical proof behind this?"):
-    st.latex("y[n] = x[n] \\ast h[n] = \sum_{k=-\infty}^{\infty}x[k]h[n-k]")
-    st.latex("Y(e^{jw}) = \sum_{n=-\infty}^{\infty}y[n]e^{-jwn}=\sum_{n=-\infty}^{\infty}\left(\sum_{k=-\infty}^{\infty}x[k]h[n-k]\\right)e^{-jwn}")
-    st.latex("= \sum_{k=-\infty}^{\infty}x[k]\sum_{n=-\infty}^{\infty}h[n-k]e^{-jwn}")
-    st.latex("= \sum_{k=-\infty}^{\infty}x[k]\sum_{n=-\infty}^{\infty}h[m]e^{-jw(m+k)}")
-    st.latex("= \sum_{k=-\infty}^{\infty}x[k]\sum_{m=-\infty}^{\infty}h[m]e^{-jwm}e^{-jwk}")
-    st.latex("=\sum_{k=-\infty}^{\infty}x[k]e^{-jwk}\sum_{m=-\infty}^{\infty}h[m]e^{-jwm}")
-    st.latex("=X(e^{jw})\cdot H(e^{jw})")
+    st.latex(r"y[n] = x[n] \ast h[n] = \sum_{k=0}^{N-1} x[k] h[n-k \mod N]")
+    st.latex(r"Y[k] = \sum_{n=0}^{N-1} y[n] e^{-j\frac{2\pi}{N}kn}")
+    st.latex(r"= \sum_{n=0}^{N-1} \left(\sum_{m=0}^{N-1} x[m] h[n-m \mod N] \right) e^{-j\frac{2\pi}{N}kn}")
+    st.latex(r"= \sum_{m=0}^{N-1} x[m] \sum_{n=0}^{N-1} h[n-m \mod N] e^{-j\frac{2\pi}{N}kn}")
+    st.latex(r"= \sum_{m=0}^{N-1} x[m] e^{-j\frac{2\pi}{N}km} \sum_{n=0}^{N-1} h[n] e^{-j\frac{2\pi}{N}kn}")
+    st.latex(r"= X[k] H[k]")
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
