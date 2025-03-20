@@ -40,7 +40,7 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 subsection = '''Writer: <a href="about" target="_blank" class="author">David Liu</a><br>
 Editor: <a href="about" target="_blank" class="author">David Liu</a><br>
-Date: 2025-01-03
+Date: 2025-03-14
 '''
 
 st.markdown(subsection, unsafe_allow_html=True)
@@ -155,13 +155,21 @@ with st.expander("Interested in the mathematical proof behind this?"):
     st.latex("= \sum_{k=-\infty}^{\infty}x[k]\sum_{m=-\infty}^{\infty}h[m]e^{-jwm}e^{-jwk}")
     st.latex("=\sum_{k=-\infty}^{\infty}x[k]e^{-jwk}\sum_{m=-\infty}^{\infty}h[m]e^{-jwm}")
     st.latex("=X(e^{jw})\cdot H(e^{jw})")
+    st.write('''This is the proof for the DTFT, where the frequency domain is continuous. 
+             In computers, we use the DFT (a discrete version of the DTFT), where the frequency domain consists of a finite set of discrete points.''')
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.markdown("""<p>
     This is rather technical but very, very efficient.
     <a href="https://www.jezzamon.com/fourier/" class="author">Fourier Transform</a>, more specifically FFT (Fast Fourier Transform), is sometimes called the most important algorithm of all time.
-    I’m not going to scare you with big equations here, but if you’re interested, check out the fantastic demo by Jez Swanson in the link above. 🫡
+    As its name suggests, it is FAST. Which improves the whole convolution process from</p>""", unsafe_allow_html=True)
+
+st.latex("O(N^2) \longrightarrow O(N \log N)")
+
+st.markdown('<div style="margin-top: 10px;"></div>', unsafe_allow_html=True)
+    
+st.markdown("""<p>I’m not going to scare you with big equations here, but if you’re interested in just the high levelconcept itself, check out the fantastic demo by Jez Swanson in the link above. 🫡
     It essentially converts a signal from its time domain to its frequency domain. Now, instead of time/sample on the x-axis, we have frequency (in Hz) on the x-axis.
 </p>""", unsafe_allow_html=True)
 
@@ -180,7 +188,8 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.write("""
 In order for your DAW to process the entire convolution in real time, 
-it chops your signal into chunks and performs the same process shown above on each chunk at a speed so fast you can barely notice it. ⚡️
+it chops your signal into chunks and performs the same process shown above on each chunk at a speed so fast you can barely notice it. 
+More specifically, a variation of the FFT, the STFT (Short-Time Fourier Transform). ⚡️
 """)
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
@@ -260,6 +269,8 @@ if audio_value:
 
     st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
     st.write("1️⃣ Remember how to efficiently perform convolution? We need to perform a Fourier Transform on both your beautiful voice and the IR.")
+    st.latex("X[f] = FFT(x[n])")
+    st.markdown('<div style="margin-top: 10px;"></div>', unsafe_allow_html=True)
     
     # 1) Read the raw bytes from your uploaded file
     audio_bytes = audio_value.read()
@@ -398,7 +409,7 @@ if audio_value:
                 st.markdown('''<p>3️⃣ Now we have both the <span style="color: #66FCF1;">dry signal</span> and the <span style="color: #FF5733;">wet signal</span> in the frequency domain. 
                             It’s time to convert them back into the time domain (and make them playable) by performing the Inverse Fourier Transform!</p>''', unsafe_allow_html=True)
 
-                st.latex("Y[f] \\longrightarrow y[n]")
+                st.latex("y[n] = IFFT(Y[f])")
                 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
                 if st.button("Inverse Fourier Transform!", use_container_width=True):
