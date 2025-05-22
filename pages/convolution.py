@@ -11,7 +11,7 @@ st.set_page_config(
     page_title="Convolution",
     page_icon="🎤",
     layout="centered",
-    initial_sidebar_state="auto",
+    initial_sidebar_state="collapsed",
 )
 
 def normalize_gain(signal, target_peak=0.9):

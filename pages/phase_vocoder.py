@@ -9,7 +9,7 @@ st.set_page_config(
     page_title="Phase Vocoder",
     page_icon="📽️",
     layout="centered",
-    initial_sidebar_state="auto",
+    initial_sidebar_state="collapsed",
 )
 
 
@@ -168,6 +168,12 @@ st.markdown("""
 """)
 
 st.write("""Vocoders can be used for a variety of different applications. This includes Telecommunications, Music, Speech Synthesis (TTS), Speech Modification, and so so much more!""") 
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.markdown("""<p>Now back to the <u>Phase Vocoder</u>! It was introduced by <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6767824" class="author">Flanagan and Golden in 1966</a>.
+            How is it special? It is allowing very flexible manipulation of speech time-scale (faster/slower speech) without affecting pitch.
+            Exactly what we need to speed run that 2 hour lecture in 40 minutes! </p>""", unsafe_allow_html=True)
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
