@@ -1,11 +1,15 @@
 import streamlit as st
-import streamlit.components.v1 as components
 from sidebar import sidebar
 import io
+from io import BytesIO
 import soundfile as sf
 import librosa
+import altair as alt
 import numpy as np
 import pandas as pd
+from scipy.signal import stft, istft, get_window, resample
+from scipy.io.wavfile import write as wav_write
+from scipy.io import wavfile
 
 st.set_page_config(
     page_title="Phase Vocoder",
@@ -31,7 +35,7 @@ st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 subsection = '''Writer: <a href="about" target="_blank" class="author">David Liu</a><br>
 Editor: <a href="about" target="_blank" class="author">David Liu</a><br>
-Date: 2025-05-14
+Date: 2025-06-06
 '''
 
 st.markdown(subsection, unsafe_allow_html=True)
@@ -114,7 +118,7 @@ title('4× Speed-Up by Skipping Samples');
 xlabel('Time (s)'); ylabel('Amplitude');
 xlim([0 T]);
 
-""")
+""", language="matlab")
     
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
@@ -150,7 +154,7 @@ if audio_value:
     st.markdown('<div style="margin-top: 20px;"></div>', unsafe_allow_html=True)
 
     st.markdown("""
-    <p>It is indeed twice as fast! But there is a problem, the pitch is now off. I can't be watching my professor yapping like a chipmunk!
+    <p>It is indeed twice as fast! But there is a problem, the pitch is now off. I can't be watching my professor yapping like a chipmunk! 🐿️
     One way to fix this is to use a specific signal processing algorithm called <u>Phase Vocoder</u>.</p>
     """, unsafe_allow_html=True)
     
@@ -159,6 +163,8 @@ if audio_value:
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.divider()
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.subheader("Introduction")
 
@@ -195,11 +201,15 @@ st.write("""
 
 
 st.write("""
-    This is indeed a very confusing topic, as Flanagan and Golden spent 15 pages to explain it in their paper.
-    I have written three versions trying to explain it in different ways, hopefully as you start from the easy one, the concept will click for you at the end!
+    This is indeed a very confusing topic, as Flanagan and Golden spent 15 pages to explain it in their paper 🤯.
+    I have written three versions trying to explain it in different ways, hopefully as you start from the easy one, the concept will click for you at the end ☺️!
 """)
 
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
 st.divider()
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.subheader("Step by Step Walkthrough")
 
@@ -226,7 +236,7 @@ st.write("""
     The key essence of the phase vocoder is at the spectral manipulation stage. 
     You signal has been windowed into frames, and then transformed into the frequency domain.
     In case where you have window size of 1024, now you have an array of 513 complex numbers where each number represents the amplitude and phase of a specific frequency from 0 up to the Nyquist frequency.
-    Before going straight into equations, maybe take a look at the easy mode to get a general intuition could be a great idea!
+    Before going straight into equations, maybe take a look at the easy mode to get a general intuition could be a great idea 💡!
 """)
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
@@ -238,10 +248,10 @@ if left.button("Easy mode", icon="🍼", use_container_width=True):
     st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
     
     st.write("""1024 samples in the time domains are converted into 513 complex numbers in the frequency domain, each representing a frequency from 0 to 22050 Hz (Nyquist frequency) if we are sampling at 44.1 kHz. 
-             Now the array size is still 1024 but anything after index 512 is meaningless. See GOATED MODE for the full explanation!""")
+             Now the array size is still 1024 but anything after index 512 is meaningless. See GOATED MODE 🔥 for the full explanation!""")
 
     st.write("""
-    Now think of each frequency bin in that array as its own little merry-go-round. 
+    Now think of each frequency bin in that array as its own little merry-go-round 🎠. 
     Higher frequency bins spins faster, and lower frequency bins spins slower.
     We are going to take two quick snapshots of each merry-go-round, 256 samples apart (hop length of 256 samples), and then deduce how fast it's really spinning. 
     """)
@@ -307,7 +317,7 @@ if left.button("Easy mode", icon="🍼", use_container_width=True):
     st.markdown("""
     <p>Instead of taking one photo every 256 samples, we just click it quicker to take one every 128 samples.
     Because we know after 256 samples, the horse has rotated to a little past east, let's say 100 degrees, then if the merry-go-round follows the real speed, 
-    it should turn 50 degrees after 128 samples! </p>
+    it should turn 50 degrees after 128 samples! 🤯</p>
     """, unsafe_allow_html=True)
 
     st.write("""
@@ -798,12 +808,511 @@ X_r = np.fft.rfft(frame, n=N_FFT)   # indices 0 … N_FFT//2""")
 
 
 
-
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
 st.divider()
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 st.subheader("Intuition Behind Changing the Hop Length")
+
+st.write("""
+Changing the hop length to speed up and down was very confusing for me at first.
+It's tricky to understand why no information is lost in the frequency domain.
+The animation below should help you understand why. 
+We don't really care if we lose a few cycles of the same frequency as long as the wavelength remains the same.
+Instead of signal cycling through 2 periods, the speed-up version cycles through 1 or less to achieve this. 
+Where as in the naive implementation, where we just decimate the signal, all wavelengths are scaled as well.
+""")
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+col_nothing, col_img, col_nothing2 = st.columns([1, 4, 1])   # adjust the width ratio to taste
+
+with col_img: 
+    st.image("images/ola_demo.gif", use_container_width=True, caption="Aperiodic chirp signal with different synthesis hop lengths")
+
+with st.expander("A significant amount of work went into making this animation! 😭"):
+    st.code("""
+    !pip install --upgrade --quiet numpy
+    !pip install --upgrade --quiet matplotlib         # plotting + animation
+    !pip install --upgrade --quiet scipy              # signal processing (stft, get_window)
+    !pip install --upgrade --quiet ipython            # IPython.display for HTML()
+    !pip install --upgrade --quiet pillow             # GIF/PNG writer for anim.save()
+    """)
+    st.code("""
+import matplotlib as mpl
+mpl.rcParams['animation.html'] = 'jshtml'
+from IPython.display import HTML
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import stft, get_window
+from matplotlib.animation import FuncAnimation
+
+# ---------------- 1. Source signal (aperiodic chirp) --------------------------
+from scipy.signal import chirp
+from scipy.signal import windows          # <- has Tukey
+
+fs       = 44_100
+duration = 0.05
+t        = np.linspace(0, duration, int(fs*duration), endpoint=False)
+
+x = chirp(t, f0=10, f1=1000, t1=duration, method='linear')
+x *= windows.tukey(len(t), alpha=0.3)      # smooth edges
+
+# ---------------- 2. STFT settings -------------------------------------------
+n_fft   = 512
+hop_a   = 128                       # analysis hop
+window  = get_window('hann', n_fft)
+_, _, Zxx = stft(x, fs, window=window, nperseg=n_fft,
+                 noverlap=n_fft-hop_a, boundary=None)
+n_bins, n_frames = Zxx.shape
+
+# ---------------- 3. Build PV frames for each rate ---------------------------
+def pv_frames(rate):
+    time_steps = np.arange(0, n_frames, rate)      # decimate reading path
+    omega      = 2 * np.pi * hop_a * np.arange(n_bins) / n_fft
+    phase_acc  = np.angle(Zxx[:, 0]).copy()
+    frames     = []
+    for ts in time_steps:
+        t0, t1 = int(np.floor(ts)), min(int(np.floor(ts))+1, n_frames-1)
+        dt     = ts - t0
+        mag    = (1-dt)*np.abs(Zxx[:, t0]) + dt*np.abs(Zxx[:, t1])
+        pd     = np.angle(Zxx[:, t1]) - np.angle(Zxx[:, t0]) - omega
+        pd    -= 2*np.pi * np.round(pd / (2*np.pi))
+        phase_acc += omega + pd
+        Y = mag * np.exp(1j*phase_acc)
+        frames.append(np.fft.irfft(Y, n_fft) * window)
+    return frames
+
+rates = [1.0, 2.0, 4.0]             # 1×, 2×, 4× speeds
+frames_list = [pv_frames(r) for r in rates]
+hops_s      = [hop_a] * len(rates)  # synthesis hop constant
+n_frames_list = [len(fr) for fr in frames_list]
+
+# ---------------- 4. Pre-compute full outputs -------------------------------
+out_full = []
+for frames, hop_s in zip(frames_list, hops_s):
+    y_len = len(frames) * hop_s + n_fft
+    buf = np.zeros(y_len)
+    for idx, fr in enumerate(frames):
+        buf[idx*hop_s: idx*hop_s + n_fft] += fr
+    out_full.append(buf)
+
+global_max = max(np.max(np.abs(b)) for b in out_full)
+
+# ---------------- 5. Figure --------------------------------------------------
+fig, axes = plt.subplots(4, 1, figsize=(9, 12))
+plt.tight_layout()
+ax_sig, ax1x, ax2x, ax4x = axes
+
+# Row 1: original + analysis window
+ax_sig.plot(t, x, color='black')
+ax_sig.set_xlim(0, duration)
+ax_sig.set_ylabel('Original')
+ax_sig.set_title('Original', fontsize=12, weight='bold')
+win_patch, = ax_sig.plot([], [], color='red', lw=2)
+
+# OA axes configuration
+oa_axes   = [ax1x, ax2x, ax4x]
+labels    = ['1× OA', '2× OA', '4× OA']
+titles    = ['1× Speed', '2× Speed', '4× Speed']
+buf_lines, frame_lines = [], []
+
+# Determine common x-limit: original length
+orig_len_sec = len(out_full[0]) / fs
+for ax, lbl, ttl in zip(oa_axes, labels, titles):
+    ax.set_xlim(0, orig_len_sec)
+    ax.set_ylim(-1.1, 1.1)
+    ax.set_ylabel(lbl)
+    ax.set_title(ttl, fontsize=12, weight='bold')
+    bl, = ax.plot([], [], lw=2)
+    fl, = ax.plot([], [], lw=2, alpha=0.65)
+    buf_lines.append(bl)
+    frame_lines.append(fl)
+
+ax4x.set_xlabel('Time (s)')
+
+# Buffers reused
+buf_work = [np.zeros_like(b) for b in out_full]
+
+def init():
+    win_patch.set_data([], [])
+    for bl, fl in zip(buf_lines, frame_lines):
+        bl.set_data([], [])
+        fl.set_data([], [])
+    return (win_patch, *buf_lines, *frame_lines)
+
+def update(i):
+    # ---- slide window on original signal -----
+    start = min(i*hop_a, len(x)-n_fft)
+    win_patch.set_data(t[start:start+n_fft], x[start:start+n_fft])
+
+    # ---- update each OA plot -----------------
+    for idx, rate in enumerate(rates):
+        hop_s   = hops_s[idx]
+        frames  = frames_list[idx]
+        n_fr    = n_frames_list[idx]
+        y_len   = len(out_full[idx])
+        buf     = buf_work[idx]; buf[:] = 0
+
+        j = min(int(i / rate), n_fr-1)
+        # overlap-add up to frame j
+        for k in range(j):
+            pos = k * hop_s
+            buf[pos:pos+n_fft] += frames[k]
+
+        # normalise
+        buf_n   = buf / global_max
+        frame_n = frames[j] / global_max
+
+        buf_x   = np.arange(y_len) / fs
+        frame_x = (np.arange(n_fft) + j*hop_s) / fs
+
+        buf_lines[idx].set_data(buf_x, buf_n)
+        frame_lines[idx].set_data(frame_x, frame_n)
+
+    return (win_patch, *buf_lines, *frame_lines)
+
+# --- just before you create the animation ------------------------------------
+base_frames   = list(range(n_frames))      # 0 … n_frames-1
+hold_ms       = 2000                       # how long to hold (milliseconds)
+interval_ms   = 100                        # your existing interval
+hold_extra    = hold_ms // interval_ms     # number of extra frames
+
+frame_seq = base_frames + [n_frames-1] * hold_extra
+# ------------------------------------------------------------------------------
+
+anim = FuncAnimation(
+        fig, update,
+        frames=frame_seq,      # use the custom sequence
+        init_func=init,
+        blit=True,
+        interval=interval_ms,
+        repeat=True            # loop after the hold segment
+)
+
+HTML(anim.to_jshtml())
+
+# Display *inside* the notebook
+display(HTML(anim.to_jshtml()))
+
+    """)
+
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.write("""
+As you can see, some wiggles in the time-domain amplitude are introduced.
+That is completely normal in the text-book phase vocoder implementation.
+This could be from many different sources, including window shape, COLA sum, frame decimation, etc.
+Perfect loudness preservation requires extra gain-correction or hybrid approaches, which many modern PV libraries (e.g. RubberBand, librosa’s phase_vocoder) add on top of the classic algorithm.
+""")
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.divider()
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+st.subheader("Try it out yourself!")
+
+st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+def phase_vocoder(x, speed: float, fs: int = 44_100,
+                  n_fft: int = 2048, hop: int | None = None) -> bytes:
+    """
+    Time-stretch (or compress) a signal with a phase-vocoder.
+
+    Parameters
+    ----------
+    x      : np.ndarray
+        1-D (mono) or 2-D (channels × samples) audio, float32/float64 in [-1, 1].
+    speed  : float
+        Playback speed (>1 = faster/shorter, <1 = slower/longer).
+    fs     : int, default 44100
+        Sample rate of *x*.
+    n_fft  : int, default 2048
+        STFT window length.
+    hop    : int | None, default n_fft//4
+        Analysis hop.  If None, uses *n_fft // 4*.
+
+    Returns
+    -------
+    bytes
+        16-bit WAV container holding the processed audio.
+    """
+    if hop is None:
+        hop = n_fft // 4
+
+    # ------ mono-ise & make float32 ------
+    x = np.asarray(x, dtype=np.float32)
+    if x.ndim == 2:
+        x = x.mean(axis=0)
+
+    # ------ analysis ------
+    win = get_window("hann", n_fft, fftbins=True)
+    _, _, Z = stft(x, fs=fs, window=win, nperseg=n_fft,
+                   noverlap=n_fft - hop, boundary=None, padded=False)
+
+    # How much we *stretch* the sound on the time axis.
+    # speed 2.0 (twice as fast)  -> stretch 0.5 (half the frames)
+    stretch = 1.0 / speed
+
+    # Target number of frames in the output spectrogram
+    n_frames_out = int(np.ceil(Z.shape[1] * stretch))
+
+    # Phase-accumulator & expected phase advance between frames
+    phi = np.angle(Z[:, 0])
+    dphi = np.angle(Z[:, 1:]) - np.angle(Z[:, :-1])
+    dphi = np.unwrap(dphi, axis=1)
+
+    # Container for the time-scaled STFT
+    Z_out = np.empty((Z.shape[0], n_frames_out), dtype=np.complex64)
+
+    # Map each output frame back to a (fractional) position in the input
+    for m_out in range(n_frames_out):
+        m_src = m_out / stretch            # fractional frame index
+        k = int(np.floor(m_src))           # left neighbour
+        frac = m_src - k                   # interpolation weight
+
+        if k >= Z.shape[1] - 1:            # tail-padding
+            mag = np.abs(Z[:, -1])
+            delta = dphi[:, -1]
+        else:
+            # Linear magnitude interpolation
+            mag = (1 - frac) * np.abs(Z[:, k]) + frac * np.abs(Z[:, k + 1])
+            delta = dphi[:, k]
+
+        phi += delta                       # accumulate true phase
+        Z_out[:, m_out] = mag * np.exp(1j * phi)
+
+    # ------ synthesis ------
+    _, y = istft(Z_out, fs=fs, window=win, nperseg=n_fft,
+                 noverlap=n_fft - hop)
+
+    # Normalise to -1 … 1 and convert to 16-bit PCM
+    y /= np.max(np.abs(y) + 1e-8)
+    pcm = (y * 32767).astype(np.int16)
+
+    # Dump into an in-memory WAV file
+    buf = io.BytesIO()
+    wav_write(buf, fs, pcm)
+    return buf.getvalue()
+
+
+def naive_speed_change(x, speed: float, fs: int = 44_100) -> bytes:
+    """
+    Change playback speed by naive resampling (decimation / interpolation).
+
+    Parameters
+    ----------
+    x      : np.ndarray
+        1-D (mono) or 2-D (channels × samples) float audio in [-1, 1].
+    speed  : float
+        >1 speeds up (shorter, higher-pitched); <1 slows down (longer, lower-pitched).
+    fs     : int, default 44100
+        Sample rate of *x*.
+
+    Returns
+    -------
+    bytes
+        16-bit WAV file containing the resampled audio.
+    """
+    # -------- ensure mono and float32 ----------
+    x = np.asarray(x, dtype=np.float32)
+    if x.ndim == 2:
+        x = x.mean(axis=0)
+
+    # -------- resample to new length ----------
+    new_len = max(1, int(len(x) / speed))
+    y = resample(x, new_len)          # FFT-based resampling
+
+    # -------- normalise & convert to PCM ----------
+    y /= np.max(np.abs(y) + 1e-8)
+    pcm = (y * 32767).astype(np.int16)
+
+    buf = io.BytesIO()
+    wav_write(buf, fs, pcm)
+    return buf.getvalue()
+
+# ---------- helper: turn WAV bytes back into a mono float array ----------
+def wav_bytes_to_array(wav_bytes):
+    sr, data = wavfile.read(BytesIO(wav_bytes))
+    # normalise to float32 in –1 … 1
+    if data.dtype == np.int16:
+        data = data.astype(np.float32) / 32768.0
+    elif data.dtype == np.int32:
+        data = data.astype(np.float32) / 2147483648.0
+    elif data.dtype == np.uint8:
+        data = (data.astype(np.float32) - 128) / 128.0
+    if data.ndim == 2:                   # stereo → mono
+        data = data.mean(axis=1)
+    return sr, data
+
+
+# ---------- spectrum helper ----------
+def spectrum_db(x, fs):
+    N      = len(x)
+    X      = np.fft.rfft(x)
+    freqs  = np.fft.rfftfreq(N, 1/fs)
+    mags   = 20 * np.log10(np.abs(X) + 1e-12)  # dB magnitude
+    return freqs, mags
+
+original_audio = st.audio_input("Talk into it!")
+
+if original_audio:
+
+    if "previous_audio" not in st.session_state or st.session_state["previous_audio"] != original_audio:
+        st.session_state["button1"] = False
+        st.session_state["button2"] = False
+        st.session_state["previous_audio"] = original_audio
+
+    original_data = resample_audio(original_audio, 44100)
+    st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+    speed = st.slider("Choose your speed", min_value=0.25, max_value=4.0, value=1.0, step=0.25)
+    st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+    pv_audio = phase_vocoder(original_data, speed)
+    naive_audio = naive_speed_change(original_data, speed)
+
+    if st.button("Phase vocode my voice!", use_container_width=True):
+        st.session_state["button1"] = not st.session_state["button1"]
+
+    if st.session_state["button1"]:
+
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+            st.write("Phase vocoded 👍")
+            st.audio(pv_audio, format="audio/wav")
+        with col2:
+            st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+            st.write("Naive implementation 👎")
+            st.audio(naive_audio, format="audio/wav")
+
+        st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+
+
+        fs,  naive_arr = wav_bytes_to_array(naive_audio)
+        _,   pv_arr    = wav_bytes_to_array(pv_audio)      # same fs as above
+
+        f_orig, mag_orig   = spectrum_db(original_data, fs)
+        f_pv,   mag_pv     = spectrum_db(pv_arr,        fs)
+        f_naive, mag_naive = spectrum_db(naive_arr,     fs)
+
+        
+        st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+        if st.button("How does it look like in the frequency domain?", use_container_width=True):
+            st.session_state["button2"] = not st.session_state["button2"]
+
+        if st.session_state["button1"] and st.session_state["button2"]:
+
+            # --------- assemble long-format DataFrame for Altair ----------
+            df = pd.DataFrame({
+                "Frequency": np.concatenate([f_orig, f_pv, f_naive]),
+                "Amplitude (dB)": np.concatenate([mag_orig, mag_pv, mag_naive]),
+                "Version": (["Original"]        * len(f_orig)   +
+                            ["Phase Vocoder"]  * len(f_pv)     +
+                            ["Naive Resample"] * len(f_naive))
+            })
+
+            # --------- Altair chart ----------
+            df_plot = df.query("20 <= Frequency <= 20000")
+
+            chart = (
+                alt.Chart(df_plot)
+                .mark_line(clip=True)          # clip the path exactly at the plot edges
+                .encode(
+                    x=alt.X(
+                        "Frequency:Q",
+                        scale=alt.Scale(type="log", domain=[20, 2e4]),
+                        title="Frequency (Hz)"
+                    ),
+                    y=alt.Y("Amplitude (dB):Q", title="Magnitude (dB)"),
+                    color=alt.Color("Version:N", title="")
+                )
+                .properties(width="container", height=320)
+            )
+            st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+            st.altair_chart(chart, use_container_width=True)
+
+            st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+            st.write("""The phase vocoder implementation is much more faithful to the original signal in the frequency domain.
+                     Hope this page helps you understand the phase vocoder better and one day contribute back to the community! 💪""")
+
+
+
+            st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
+            with st.expander("Here is my implementation of the phase vocoder in Python"):
+                st.code("""
+def phase_vocoder(x, speed: float, fs: int = 44_100,
+                  n_fft: int = 2048, hop: int | None = None) -> bytes:
+    if hop is None:
+        hop = n_fft // 4
+
+    # ------ mono-ise & make float32 ------
+    x = np.asarray(x, dtype=np.float32)
+    if x.ndim == 2:
+        x = x.mean(axis=0)
+
+    # ------ analysis ------
+    win = get_window("hann", n_fft, fftbins=True)
+    _, _, Z = stft(x, fs=fs, window=win, nperseg=n_fft,
+                   noverlap=n_fft - hop, boundary=None, padded=False)
+
+    # How much we *stretch* the sound on the time axis.
+    # speed 2.0 (twice as fast)  -> stretch 0.5 (half the frames)
+    stretch = 1.0 / speed
+
+    # Target number of frames in the output spectrogram
+    n_frames_out = int(np.ceil(Z.shape[1] * stretch))
+
+    # Phase-accumulator & expected phase advance between frames
+    phi = np.angle(Z[:, 0])
+    dphi = np.angle(Z[:, 1:]) - np.angle(Z[:, :-1])
+    dphi = np.unwrap(dphi, axis=1)
+
+    # Container for the time-scaled STFT
+    Z_out = np.empty((Z.shape[0], n_frames_out), dtype=np.complex64)
+
+    # Map each output frame back to a (fractional) position in the input
+    for m_out in range(n_frames_out):
+        m_src = m_out / stretch            # fractional frame index
+        k = int(np.floor(m_src))           # left neighbour
+        frac = m_src - k                   # interpolation weight
+
+        if k >= Z.shape[1] - 1:            # tail-padding
+            mag = np.abs(Z[:, -1])
+            delta = dphi[:, -1]
+        else:
+            # Linear magnitude interpolation
+            mag = (1 - frac) * np.abs(Z[:, k]) + frac * np.abs(Z[:, k + 1])
+            delta = dphi[:, k]
+
+        phi += delta                       # accumulate true phase
+        Z_out[:, m_out] = mag * np.exp(1j * phi)
+
+    # ------ synthesis ------
+    _, y = istft(Z_out, fs=fs, window=win, nperseg=n_fft,
+                 noverlap=n_fft - hop)
+
+    # Normalise to -1 … 1 and convert to 16-bit PCM
+    y /= np.max(np.abs(y) + 1e-8)
+    pcm = (y * 32767).astype(np.int16)
+
+    # Dump into an in-memory WAV file
+    buf = io.BytesIO()
+    wav_write(buf, fs, pcm)
+    return buf.getvalue()
+                """, language="python")
+
+            
+
+
 
 
 st.markdown('<div style="margin-top: 200px;"></div>', unsafe_allow_html=True)
 
 st.image("images/icon.png", use_container_width="always")
+
+

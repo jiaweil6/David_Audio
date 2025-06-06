@@ -5,3 +5,4 @@ pandas
 altair
 soundfile
 librosa
+scipy
