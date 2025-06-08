@@ -29,7 +29,7 @@ with open( "style.css" ) as css:
 # Add some padding to prevent content from being hidden behind the navbar
 st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)
 
-st.markdown("<h2 class='title';'>The algorithm behind trying to finish a 40-min YouTube lecture in 20 mins<br> What is <u>Phase Vocoder</u>?</h2>", unsafe_allow_html=True)
+st.markdown("<h2 class='title';'>Algorithm behind trying to finish a 40-min YouTube lecture in 20 mins<br> What is <u>Phase Vocoder</u>?</h2>", unsafe_allow_html=True)
 
 st.markdown('<div style="margin-top: 30px;"></div>', unsafe_allow_html=True)
 
