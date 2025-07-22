@@ -4,10 +4,12 @@ from sidebar import sidebar
 st.set_page_config(
     page_title="Home",
     page_icon="🏠",
-    layout="centered"
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
 sidebar()
+
 
 with open( "style.css" ) as css:
     st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
