@@ -4,8 +4,7 @@ from sidebar import sidebar
 st.set_page_config(
     page_title="Home",
     page_icon="🏠",
-    layout="centered",
-    initial_sidebar_state="collapsed",
+    layout="centered"
 )
 
 sidebar()
