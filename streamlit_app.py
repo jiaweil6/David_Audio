@@ -9,6 +9,7 @@ st.set_page_config(
 )
 
 sidebar()
+
 main_body_logo = "images/icon.png"
 st.logo(main_body_logo)
 
