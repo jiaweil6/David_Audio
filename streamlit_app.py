@@ -1,5 +1,4 @@
 import streamlit as st
-from sidebar import sidebar
 
 st.set_page_config(
     page_title="Home",
@@ -8,6 +7,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+from sidebar import sidebar
 sidebar()
 
 main_body_logo = "images/icon.png"
