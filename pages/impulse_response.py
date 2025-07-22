@@ -36,8 +36,6 @@ def normalize_gain(signal, target_peak=0.9):
     return normalized_signal
 
 sidebar()
-main_body_logo = "images/icon.png"
-st.logo(main_body_logo)
 
 with open( "style.css" ) as css:
     st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)

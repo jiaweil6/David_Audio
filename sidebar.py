@@ -9,3 +9,6 @@ def sidebar():
         st.page_link("pages/convolution.py", label="Convolution", icon="🎤")
         st.page_link("pages/phase_vocoder.py", label="Phase Vocoder", icon="📽️")
         st.page_link("pages/impulse_response.py", label="Impulse Response", icon="🎸")
+
+    main_body_logo = "images/icon.png"
+    st.logo(main_body_logo)
