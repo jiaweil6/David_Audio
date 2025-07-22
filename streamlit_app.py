@@ -6,7 +6,7 @@ st.set_page_config(
     page_title="Home",
     page_icon="🏠",
     layout="centered",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
 main_body_logo = "images/icon.png"
