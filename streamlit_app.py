@@ -1,13 +1,14 @@
 import streamlit as st
 from sidebar import sidebar
-sidebar()
 
 st.set_page_config(
     page_title="Home",
     page_icon="🏠",
     layout="centered",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
+
+sidebar()
 
 main_body_logo = "images/icon.png"
 st.logo(main_body_logo)
